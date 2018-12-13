@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry exported="true" kind="lib" path="activation-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="chemistry-opencmis-client-api-0.10.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="chemistry-opencmis-client-bindings-0.10.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="chemistry-opencmis-client-impl-0.10.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="chemistry-opencmis-commons-api-0.10.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="chemistry-opencmis-commons-impl-0.10.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="commons-lang3-3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="jaxb-api-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="jaxb-impl-2.1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="jaxws-api-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="jaxws-rt-2.1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="jgraphx-1.10.4.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="log4j-1.2.17.jar"/>
+	<classpathentry exported="true" kind="lib" path="mimepull-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="resolver-20050927.jar"/>
+	<classpathentry exported="true" kind="lib" path="saaj-api-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="saaj-impl-1.3.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="slf4j-api-1.7.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="slf4j-log4j12-1.7.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="streambuffer-0.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="httpclient-4.3.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="httpcore-4.3.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="commons-logging-1.1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="httpmime-4.3.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="joda-time-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="jackson-annotations-2.2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="jackson-core-2.2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="jackson-databind-2.2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="commons-codec-1.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="activiti-bpmn-layout-5.20.0-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="activiti-image-generator-5.20.0-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="activiti-simple-workflow-5.20.0-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="activiti-simple-workflow-alfresco-5.20.0-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="activiti-bpmn-model-5.21.0-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="activiti-bpmn-converter-5.21.0-SNAPSHOT.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
