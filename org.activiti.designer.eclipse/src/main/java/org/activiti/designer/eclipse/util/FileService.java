@@ -71,9 +71,9 @@ public class FileService {
   public static IFile getTemporaryDiagramFile(IPath dataFilePath, IFolder diagramFileTempFolder) {
 
     final IPath path = dataFilePath.removeFileExtension().addFileExtension(
-            ActivitiConstants.DIAGRAM_FILE_EXTENSION_RAW);
-    final IFile tempFile = diagramFileTempFolder.getFile(path.lastSegment());
-
+            ActivitiConstants.DIAGRAM_FILE_EXTENSION_RAW);//==>path="/Test/test.bpmn2d"
+    final IFile tempFile = diagramFileTempFolder.getFile(path.lastSegment());//path.lastSegment()="test.bpmn2d"
+    //tempFile = "L/Test/.biz/test.bpmn2d"
     // We don't need anything from that file and to be sure there are no side
     // effects we delete the file
     if (tempFile.exists()) {
@@ -103,13 +103,29 @@ public class FileService {
     if (name == null || name.length() == 0) {
       name = "bpmn";
     }
-
-    String dir = dataFilePath.segment(0);
-    IFolder folder = root.getProject(dir).getFolder("." + name);
+    /// dataFilePath = "Test/test.biz"
+    String dir = dataFilePath.segment(0);// =>dir="Test"
+    //
+    /**
+     * getFolder:
+     * 
+     * Returns a handle to the folder with the given name in this project.
+     * This is a resource handle operation; neither the container nor the result need exist in the workspace. 
+     * The validation check on the resource name/path is not done when the resource handle is constructed; 
+     * rather, it is done automatically as the resource is created.
+     * 
+     * Parameters:
+     * name - the string name of the member folder
+     * Returns:
+     * the (handle of the) member folder
+     */
+    IFolder folder = root.getProject(dir).getFolder("." + name);//name='bzi',dir="Test"
+    //folder==>"F/Test/.biz";
     if (!folder.exists()) {
       folder.create(true, true, null);
     }
-    String[] segments = dataFilePath.segments();
+    String[] segments = dataFilePath.segments();//dataFilePath="/Test/test.biz"
+    //segments = [Test, test.biz]
     for (int i = 1; i < segments.length - 1; i++) {
       String segment = segments[i];
       folder = folder.getFolder(segment);
@@ -184,34 +200,117 @@ public class FileService {
    * @return the appropriate data file or <code>null</code> if none could be determined.
    */
   public static IFile getDataFileForInput(final IEditorInput input) {
+	  /**
+	   * IEditorInput is a light weight descriptor of editor input, like a file name but more abstract. It is not a model. 
+	   * It is a description of the model source for an IEditorPart.
+	   * Clients implementing this editor input interface should override Object.equals(Object) to answer true for two inputs that are the same. 
+	   * The IWorbenchPage.openEditor APIs are dependent on this to find an editor with the same input.
+	   * 
+	   * Clients should extend this interface to declare new types of editor inputs.
+	   * An editor input is passed to an editor via the IEditorPart.init method. Due to the wide range of valid editor inputs, 
+	   * it is not possible to define generic methods for getting and setting bytes.
+	   * 
+	   * Editor input must implement the IAdaptable interface; extensions are managed by the platform's adapter manager.
+	   * 
+	   * Please note that it is important that the editor input be light weight. Within the workbench, 
+	   * the navigation history tends to hold on to editor inputs as a means of reconstructing the editor at a later time. 
+	   * The navigation history can hold on to quite a few inputs (i.e., the default is fifty). 
+	   * The actual data model should probably not be held in the input.
+	   */
     final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
     if (input instanceof ActivitiDiagramEditorInput) {
       final ActivitiDiagramEditorInput adei = (ActivitiDiagramEditorInput) input;
-
       return adei.getDataFile();
     } else if (input instanceof DiagramEditorInput) {
+    /**
+     * DiagramEditorInput:
+	 * The editor input object for IDiagramContainerUIs. 
+	 * Wraps the URI of a Diagram and an ID of a diagram type provider for displaying it with a Graphiti diagram editor.
+	 */
       final DiagramEditorInput dei = (DiagramEditorInput) input;
-
+      /**
+       * http://java.sun.com/j2se/1.3/docs/guide/collections/designfaq.html#28 
+       * 分层 URI 还要按照下面的语法进行进一步的解析
+       * [ scheme :][ // authority][ path][ ? query][ # fragment]
+       * 其中， :、 /、 ? 和 # 代表它们自身。分层 URI 的特定于方案的部分包含方案和片段部分之间的字符
+       * 
+       * trimFragment()应该删除了"#28"字符
+       * 
+       * 
+       * public java.lang.String toPlatformString(boolean decode)
+       * If this is a platform URI, as determined by isPlatform(), returns the workspace-relative or plug-in-based path to the resource, 
+       * optionally decoding the segments in the process.
+       */
       IPath path = new Path(dei.getUri().trimFragment().toPlatformString(true));
 
       return recreateDataFile(path);
     } else if (input instanceof FileEditorInput) {
+      /**
+       * FileEditorInput:
+       * 
+       * Adapter for making a file resource a suitable input for an editor.
+       * This class may be instantiated; it is not intended to be subclassed.
+       */
       final FileEditorInput fei = (FileEditorInput) input;
 
       return fei.getFile();
     } else if (input instanceof IURIEditorInput) {
+    
+      /**
+       * IURIEditorInput:
+       * 
+       * This interface defines an editor input based on a URI.
+       * Clients implementing this editor input interface should override Object.equals(Object) to answer true for two inputs that are the same. 
+       * The IWorkbenchPage.openEditor APIs are dependent on this to find an editor with the same input.
+       * Path-oriented editors should support this as a valid input type, and can allow full read-write editing of its content.
+       * All editor inputs must implement the IAdaptable interface; extensions are managed by the platform's adapter manager
+       */
       // opened externally to Eclipse
       final IURIEditorInput uei = (IURIEditorInput) input;
       final java.net.URI uri = uei.getURI();
       final String path = uri.getPath();
 
       try {
-        final IProject importProject = root.getProject("import");
+    	  /**
+    	   * root.getProject:
+    	   * 
+    	   * Returns a handle to the project resource with the given name which is a child of this root. 
+    	   * The given name must be a valid path segment as defined by IPath.isValidSegment(String).
+    	   * Note: This method deals exclusively with resource handles, independent of whether the resources exist in the workspace. 
+    	   * With the exception of validating that the name is a valid path segment, 
+    	   * validation checking of the project name is not done when the project handle is constructed; rather, 
+    	   * it is done automatically as the project is created.
+    	   * 
+    	   * 例子：
+    	   * The typical usage pattern is that a client creates one of the concrete operations and executes it using the platform operation history. 
+    	   * For example, the following snippet deletes the project "Blort" without deleting its contents, and adds it to the operation history so that it can be undone and redone.
+    	   * 
+    	   * IProject project = getWorkspace().getRoot().getProject("Blort");
+    	   * // assume that getMonitor() returns a suitable progress monitor
+    	   * project.create(getMonitor());
+    	   * project.open(getMonitor());
+    	   * DeleteResourcesOperation op = new DeleteResourcesOperation(
+    	   *           new IResource[] { project }, "Delete Project Blort", false);
+    	   *           PlatformUI.getWorkbench().getOperationSupport()
+    	   *           .getOperationHistory().execute(operation, getMonitor(), null);
+    	   */
+        final IProject importProject = root.getProject("import");//获取import工程
         if (!importProject.exists()) {
+        	/**
+        	 * void create(IProgressMonitor monitor)
+        	 * 
+        	 * Parameters:
+        	 * monitor - a progress monitor, or null if progress reporting is not desired
+        	 */
           importProject.create(null);
         }
-
+        /**
+         * void open(IProgressMonitor monitor)
+         * 
+         * Parameters:
+         * monitor - a progress monitor, or null if progress reporting is not desired
+         */
         importProject.open(null);
 
         final InputStream is = new FileInputStream(path);
@@ -250,6 +349,12 @@ public class FileService {
 	                                                               , final IFile resourceFile) {
 
 		TransactionalEditingDomain editingDomain = null;
+		/**
+		 * 一个ResourceSet代表了一个Resource的集合。提供了createResource()，getResource()，以及getEObject()方法。createResource()创建一个新的，空的resource。
+		 * getResource()方法也同样创建一个resource，但是会使用给定的URI来装载这个Resource。用户应该始终调用ResourceSet的这两个方法，
+		 * 而不是Resource的构造函数或者Resource.Factory的createResource()方法来创建一个Resource。这是因为ResourceSet会保证相同的URI所对应的Resource不会被装载多次，
+		 * 而导致内存中有相同的副本，并且，ResourceSet能够自动处理跨文档的引用，而Resource却不行
+		 */
 		ResourceSet resourceSet = null;
 
 		if (diagramEditor == null || diagramEditor.getDiagramBehavior() == null || 
@@ -271,12 +376,26 @@ public class FileService {
 		}
 
 		// Create a resource for this file.
-		final Resource resource = resourceSet.createResource(diagramResourceUri);
+		final Resource resource = resourceSet.createResource(diagramResourceUri);//diagramResourceUri = "platform:/resource/Test/.biz/test.bpmn2d"
+		/**
+		 * RecordingCommand:
+		 * 
+		 * A partial Command implementation that records the changes made by a subclass's direct manipulation of objects via the metamodel's API. 
+		 * This simplifies the programming model for complex commands (not requiring composition of set/add/remove commands) while still providing automatic undo/redo support.
+		 * 
+		 * Subclasses are simply required to implement the doExecute() method to make the desired changes to the model. Note that, because changes are recorded for automatic undo/redo, 
+		 * the concrete command must not make any changes that cannot be recorded by EMF (unless it does not matter that they will not be undone).
+		 */
 		final CommandStack commandStack = editingDomain.getCommandStack();
 		commandStack.execute(new RecordingCommand(editingDomain) {
 
 			@Override
 			protected void doExecute() {
+				//https://blog.csdn.net/u012521340/article/details/76147176
+				/**
+				 * 资源可以通过isModified()，来跟踪对其完整内容的任何更改，并且返回自从最近保存和加载后的变更。
+				 * 默认情况下，这个特性是无效的，因为它的实现昂贵而且对撤销命令是无效的，由于撤销看起来像变更。适当时候，setTrackingModification() 可以使其生效。
+				 */
 				resource.setTrackingModification(true);
 
 				if (contentStream == null || resourceFile == null) {
@@ -304,6 +423,12 @@ public class FileService {
 			final Map<Resource, Map<?, ?>> options) {
 
 		final Map<URI, Throwable> failedSaves = new HashMap<URI, Throwable>();
+		/**
+		 * WorkspaceJob是为修改资源文件增加的扩展，常见的对文件的打开，保存，等等操作一般需要在这个类中执行。与WorkspaceJob对应的是IWorkspaceRunnable。
+		 * 
+		 * A runnable which executes as a batch operation within the workspace. 
+		 * The IWorkspaceRunnable interface should be implemented by any class whose instances are intended to be run by IWorkspace.run
+		 */
 		final IWorkspaceRunnable wsRunnable = new IWorkspaceRunnable() {
 			@Override
 			public void run(final IProgressMonitor monitor) throws CoreException {
@@ -312,6 +437,7 @@ public class FileService {
 
 					@Override
 					public void run() {
+						//EMF中模型不能直接编辑，需要有事务，支持undo redo
 						Transaction parentTx;
 						if (editingDomain != null
 								&& (parentTx = ((TransactionalEditingDomainImpl) editingDomain).getActiveTransaction()) != null) {

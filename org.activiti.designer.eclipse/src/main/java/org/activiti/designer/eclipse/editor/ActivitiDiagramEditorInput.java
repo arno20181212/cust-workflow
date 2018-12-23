@@ -16,7 +16,14 @@ package org.activiti.designer.eclipse.editor;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
-
+/**
+ * public class DiagramEditorInput
+ * extends Object
+ * implements IDiagramEditorInput
+ * The editor input object for IDiagramContainerUIs. Wraps the URI of a Diagram and an ID of a diagram type provider for displaying it with a Graphiti diagram editor.
+ * @author Administrator
+ *
+ */
 public class ActivitiDiagramEditorInput extends DiagramEditorInput {
 
   private IFile diagramFile;
@@ -41,7 +48,11 @@ public class ActivitiDiagramEditorInput extends DiagramEditorInput {
   public void setDataFile(IFile dataFileName) {
     this.dataFile = dataFileName;
   }
-
+  
+/**
+ * equals(Object obj) 
+ *    Checks if this instance of the input represent the same object as the given instance.
+ */
   @Override
   public boolean equals(Object obj) {
     boolean result = false;

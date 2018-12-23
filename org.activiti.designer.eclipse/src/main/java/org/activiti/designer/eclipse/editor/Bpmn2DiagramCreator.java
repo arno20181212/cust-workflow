@@ -44,10 +44,10 @@ public class Bpmn2DiagramCreator {
     
     IFile finalDataFile = dataFile;
 
-    final IPath diagramPath = diagramFile.getFullPath();
-    final String diagramName = diagramPath.removeFileExtension().lastSegment();
-    final URI uri = URI.createPlatformResourceURI(diagramPath.toString(), true);
-
+    final IPath diagramPath = diagramFile.getFullPath();//diagramPath="/Test/.biz/test.bpmn2d";
+    final String diagramName = diagramPath.removeFileExtension().lastSegment();//diagramName="test";
+    final URI uri = URI.createPlatformResourceURI(diagramPath.toString(), true);//diagramPath.toString()="/Test/.biz/test.bpmn2d";
+    //uri ="platform:/resource/Test/.biz/test.bpmn2d";
     if (templateContent != null) {
       // there is a template to use
       final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(templateContent);
@@ -82,15 +82,23 @@ public class Bpmn2DiagramCreator {
 
       try {
         is.close();
-      } catch (IOException exception) {
+      } catch (IOException exception) { 
         exception.printStackTrace();
       }
     }
-
+    //Diagram diagram = Graphiti.getPeCreateService().createDiagram(diagramTypeId, diagramName, true);
     final Diagram diagram = Graphiti.getPeCreateService().createDiagram("BPMNdiagram", diagramName, true);
 
     FileService.createEmfFileForDiagram(uri, diagram, diagramEditor, null, null);
-
+    /**
+     *getDiagramTypeProviderId:
+     * 
+     *Gets the diagram type provider id.
+     *
+     *Returns:
+     *provider id of the diagram type providers which can handle the given diagram type id. 
+     *If more then one diagram type providers available, the first one will be returned.
+     */
     final String providerId = GraphitiUi.getExtensionManager().getDiagramTypeProviderId(diagram.getDiagramTypeId());
     final ActivitiDiagramEditorInput result = new ActivitiDiagramEditorInput(EcoreUtil.getURI(diagram), providerId);
     result.setDataFile(finalDataFile);

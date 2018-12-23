@@ -128,7 +128,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
 
   @Override
   public TransactionalEditingDomain getEditingDomain() {
-    TransactionalEditingDomain ted = super.getEditingDomain();
+    TransactionalEditingDomain ted = super.getEditingDomain();//// Í¼µÄmodelµÄeditingDomain
 
     if (ted == null) {
       ted = transactionalEditingDomain;
@@ -156,17 +156,17 @@ public class ActivitiDiagramEditor extends DiagramEditor {
 
   private ActivitiDiagramEditorInput createNewDiagramEditorInput(final IEditorInput input) throws CoreException {
 
-    final IFile dataFile = FileService.getDataFileForInput(input);
+    final IFile dataFile = FileService.getDataFileForInput(input);//dataFile="L/Test/test.biz"
 
     // now generate the temporary diagram file
     final IPath dataFilePath = dataFile.getFullPath();
 
     // get or create the corresponding temporary folder
-    final IFolder tempFolder = FileService.getOrCreateTempFolder(dataFilePath);
+    final IFolder tempFolder = FileService.getOrCreateTempFolder(dataFilePath);//tempFolder==>"F/Test/.biz"
 
     // finally get the diagram file that corresponds to the data file
-    final IFile diagramFile = FileService.getTemporaryDiagramFile(dataFilePath, tempFolder);
-
+    final IFile diagramFile = FileService.getTemporaryDiagramFile(dataFilePath, tempFolder);//diagramFile = "L/Test/.biz/test.bpmn2d"
+    
     // Create new temporary diagram file
     Bpmn2DiagramCreator creator = new Bpmn2DiagramCreator();
 
