@@ -211,7 +211,9 @@ public class ActivitiToolBehaviorProvider extends DefaultToolBehaviorProvider {
     toolMapping.put(CreateAlfrescoMailTaskFeature.class, PaletteEntry.ALFRESCO_MAIL_TASK);
     toolMapping.put(CreateTextAnnotationFeature.class, PaletteEntry.TEXT_ANNOTATION);
   }
-
+ /**
+ * 双击行为定义在tool behavior provider中。通过覆写方法getDoubleClickFeature返回custom feature为给定的上下文执行双击行为。
+ */
   @Override
   public ICustomFeature getDoubleClickFeature(IDoubleClickContext context) {
     /*
@@ -225,7 +227,15 @@ public class ActivitiToolBehaviorProvider extends DefaultToolBehaviorProvider {
     
     return super.getDoubleClickFeature(context);
   }
-
+/**
+ * (1) ceating an Image Provider
+ * 
+ * Graphiti是独立于平台的，但图像的实例是依赖于平台的。因此Graphiti中的图片是通过标识符（identify）来使用的，image provider的任务就是为图片标识符发布依赖平台的图片。
+ * 
+ * 创 建Image provider必须实现接口IImageProvider，或者继承其子类如AbstractImageProvider。
+ * 覆写或实现方法 addAvailableImages（注册所有可用的图像标识符，并将它们映射到他们的依赖于平台的图像）。
+ * 实现tool behavior provider类中的getContextButtonPad方法。
+ */
   @Override
   public IContextButtonPadData getContextButtonPad(IPictogramElementContext context) {
     IContextButtonPadData data = super.getContextButtonPad(context);
@@ -639,7 +649,10 @@ public class ActivitiToolBehaviorProvider extends DefaultToolBehaviorProvider {
     newButton.setIconId(image.getImageKey());
     button.getContextButtonMenuEntries().add(newButton);
   }
-
+/**
+ * 1.3 Providing a Context Menu
+ * Context Menu定义在tool behavior provider中。通过覆写方法getContextMenu创建返回context menu。
+ */
   @Override
   public IContextMenuEntry[] getContextMenu(ICustomContext context) {
     List<IContextMenuEntry> menuList = new ArrayList<IContextMenuEntry>();
@@ -672,7 +685,12 @@ public class ActivitiToolBehaviorProvider extends DefaultToolBehaviorProvider {
     }
     return menuList.toArray(new IContextMenuEntry[menuList.size()]);
   }
-
+/**
+ * 1.4.2 Creating a Palette
+ * 在tool behavior provider中调用getPalette方法创建并返回一个palette。
+ * 
+ * DefaultToolBehaviorProvider类中已经默认实现了两个compartment，一个是放connection的，一个是放置用户的creature feature。
+ */
   @Override
   public IPaletteCompartmentEntry[] getPalette() {
 

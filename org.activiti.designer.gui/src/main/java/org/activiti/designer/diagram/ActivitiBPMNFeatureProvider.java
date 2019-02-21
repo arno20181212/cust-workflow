@@ -304,7 +304,12 @@ public class ActivitiBPMNFeatureProvider extends DefaultFeatureProvider {
   @Override
   public IDeleteFeature getDeleteFeature(IDeleteContext context) {
     PictogramElement pictogramElement = context.getPictogramElement();
-    Object bo = getBusinessObjectForPictogramElement(pictogramElement);
+    /**
+     * getBusinessObjectForPictogramElement()
+     * Returns:
+     * The first of possibly several business objects which are linked to the given pictogram element. Can be null.
+     */
+    Object bo = getBusinessObjectForPictogramElement(pictogramElement);//
 
     if (bo instanceof FlowElement) {
       return new DeleteFlowElementFeature(this);

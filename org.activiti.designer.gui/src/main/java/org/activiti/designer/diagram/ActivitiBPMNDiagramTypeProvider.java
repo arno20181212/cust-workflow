@@ -16,7 +16,43 @@ package org.activiti.designer.diagram;
 import org.eclipse.graphiti.dt.AbstractDiagramTypeProvider;
 import org.eclipse.graphiti.notification.INotificationService;
 import org.eclipse.graphiti.tb.IToolBehaviorProvider;
+/**
+ * Diagram
+3.1      创建插件工程
+3.2      创建Diagram Type Provider类
+Diagram是graphiti内置的显示模型的根节点，通过type D标示。
 
+(1)     Diagram Type Provider类实现IDiagramTypeProvider.或继承AbstractDiagramTypeProvider.
+
+(2)      如果为diagram type 创建了类型提供器，而这种diagram type不存在，则需要在plugin.xml中声明该类型的信息。
+
+   <extension
+
+         point="org.eclipse.graphiti.ui.diagramTypes">
+
+      <diagramType
+
+            id="chessdemo.ChessDiagramType"
+
+            name="Diagram Type for Chess Demo"
+
+            type="chessDemo">
+
+      </diagramType>
+
+</extension>
+
+在Graphiti中的“add”是为业务对象（领域模型对象）创建图形表达。哪种业务（business）对象能够添加到特定类型的diagram里是由feature provider发布的 add feature决定的。
+
+Graphiti支持Pictogram links，即领域模型的元素与定义图形化展示的模型（Pictogram model）的元素的链接。每个diagram有一个容器（图形，例如矩形）装载pictogram links。
+--------------------- 
+作者：andywangcn 
+来源：CSDN 
+原文：https://blog.csdn.net/andywangcn/article/details/7905742 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+ * @author Administrator
+ *
+ */
 public class ActivitiBPMNDiagramTypeProvider extends AbstractDiagramTypeProvider {
 
   private ActivitiNotificationService activitiNotificationService;
@@ -25,6 +61,19 @@ public class ActivitiBPMNDiagramTypeProvider extends AbstractDiagramTypeProvider
 
 	public ActivitiBPMNDiagramTypeProvider() {
 		super();
+		/**
+		 * Features响应客户的操作，处理显示、展示、及连接模型。
+		 * 
+		 * 1.1      创建Feature Provider类
+		 * (1)     从AbstractFeatureProvider/DefaultFeatureProvider扩展出自己的Feature Provider类。该类用于发布（deliver）features.
+		 *
+		 * (2)     在DagramTypeProvider()创建和设置FeatureProvider。
+		 *---------------------
+		 *作者：andywangcn
+		 *来源：CSDN
+		 *原文：https://blog.csdn.net/andywangcn/article/details/7943720
+		 *版权声明：本文为博主原创文章，转载请附上博文链接！
+		 */
 		setFeatureProvider(new ActivitiBPMNFeatureProvider(this));
 	}
 
@@ -39,6 +88,13 @@ public class ActivitiBPMNDiagramTypeProvider extends AbstractDiagramTypeProvider
 
   @Override
 	public IToolBehaviorProvider[] getAvailableToolBehaviorProviders() {
+	  /**
+	   * 工具行为提供器需要被集成到标准工作台工具中。这一般意味着在工作台现有的编辑概念（concept）上添加功能。
+	   * 
+	   * (1)      必须实现接口IToolBehaviorProvider，或者继承其子类如DefaultToolBehaviorProvider.。
+	   * (2)      覆写方法：到剪贴板。
+	   * (3)      在feature provider中覆写getAvailableToolBehaviorProviders发布。
+	   */
 		if (toolBehaviorProviders == null) {
 			toolBehaviorProviders = new IToolBehaviorProvider[] { new ActivitiToolBehaviorProvider(this) };
 		}
