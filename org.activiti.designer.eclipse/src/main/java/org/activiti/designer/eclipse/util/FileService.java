@@ -83,7 +83,7 @@ public class FileService {
         e.printStackTrace();
       }
     }
-    return tempFile;
+    return tempFile;//tempFile="L/Test/.biz/test.bpmn2d"
   }
 
   /**
@@ -124,7 +124,7 @@ public class FileService {
     if (!folder.exists()) {
       folder.create(true, true, null);
     }
-    String[] segments = dataFilePath.segments();//dataFilePath="/Test/test.biz"
+    String[] segments = dataFilePath.segments();//dataFilePath="/Test/test.biz",segments=[Test, test.biz]
     //segments = [Test, test.biz]
     for (int i = 1; i < segments.length - 1; i++) {
       String segment = segments[i];
@@ -133,7 +133,7 @@ public class FileService {
         folder.create(true, true, null);
       }
     }
-    return folder;
+    return folder;//folder="F/Test/.biz"
   }
 
   /**
@@ -145,11 +145,24 @@ public class FileService {
    * @return a file object representing the data file
    */
   public static IFile recreateDataFile(final IPath inputPath) {
+	  //inputPath="/Test/.biz/test.bpmn2d"
     final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-    final IProject project = root.getFile(inputPath).getProject();
+    final IProject project = root.getFile(inputPath).getProject();//project="P/Test"
 
+   /**
+    * IPath	getFullPath():
+    * Returns the full, absolute path of this resource relative to the workspace.
+    * ======================================
+    * int matchingFirstSegments(inputPath):
+    * Returns a count of the number of segments which match in this path and the given path (device ids are ignored), 
+    * comparing in increasing segment number order.
+    * 
+    * project.getFullPath()="/Test"
+    * project.getFullPath().matchingFirstSegments(inputPath)=1
+    * inputPath="/Test/.biz/test.bpmn2d"
+    */
     final int matchingSegments = project.getFullPath().matchingFirstSegments(inputPath);
-    final int totalSegments = inputPath.segmentCount();
+    final int totalSegments = inputPath.segmentCount();//totalSegments=3
     final String extension = inputPath.getFileExtension();
 
     IFile result = null;
@@ -161,18 +174,22 @@ public class FileService {
 
       if (ActivitiConstants.DIAGRAM_FILE_EXTENSION_RAW.equals(extension)) {
         // we got a temporary file here, so rebuild the file of the model from its path
-        String originalExtension = inputPath.segment(matchingSegments);
+    	/**
+    	 * IPath.segment(int index):
+    	 * Returns the specified segment of this path, or null if the path does not have such a segment.
+    	 */
+        String originalExtension = inputPath.segment(matchingSegments);//originalExtension=".biz",matchingSegments=1
         if (originalExtension.startsWith(".")) {
           originalExtension = originalExtension.substring(1);
         }
 
-        final String[] segments = inputPath.segments();
-        IPath originalPath = project.getFullPath();
+        final String[] segments = inputPath.segments();//segments=[Test, .biz, test.bpmn2d],inputPath="/Test/.biz/test.bpmn2d"
+        IPath originalPath = project.getFullPath();//originalPath="/Test"
         for (int index = matchingSegments + 1; index < segments.length; ++index) {
           originalPath = originalPath.append(segments[index]);
-        }
-
-        resultPath = originalPath.removeFileExtension().addFileExtension(originalExtension);
+        }//originalPath="/Test/test.bpmn2d"
+        
+        resultPath = originalPath.removeFileExtension().addFileExtension(originalExtension);//resultPath="/Test/test.biz"
       }
       else {
         resultPath = inputPath.makeAbsolute();
@@ -219,7 +236,7 @@ public class FileService {
 	   */
     final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
-    if (input instanceof ActivitiDiagramEditorInput) {
+    if (input instanceof ActivitiDiagramEditorInput) {//ActivitiDiagramEditorInput 在DiagramEditorInput上增加了diagramFile（图形文件）和datafile（数据文件）属性
       final ActivitiDiagramEditorInput adei = (ActivitiDiagramEditorInput) input;
       return adei.getDataFile();
     } else if (input instanceof DiagramEditorInput) {
@@ -227,6 +244,7 @@ public class FileService {
      * DiagramEditorInput:
 	 * The editor input object for IDiagramContainerUIs. 
 	 * Wraps the URI of a Diagram and an ID of a diagram type provider for displaying it with a Graphiti diagram editor.
+	 * （包装关系图的URI和关系图类型提供程序的ID，以便用图形图编辑器显示它）
 	 */
       final DiagramEditorInput dei = (DiagramEditorInput) input;
       /**
@@ -240,7 +258,16 @@ public class FileService {
        * 
        * public java.lang.String toPlatformString(boolean decode)
        * If this is a platform URI, as determined by isPlatform(), returns the workspace-relative or plug-in-based path to the resource, 
+       * （如果这是平台URI（由is platform（）确定），则返回资源的相对工作区或基于插件的路径。）
        * optionally decoding the segments in the process.
+       * 
+       * 例：输入的url地址为http://localhost:8080/testproject/test?32fr
+       * getRequestURI()返回/testproject/test，为一个String
+       * getRequestURL()返回http://localhost:8080/testproject/test，为一个StringBuffer
+       * 
+       * dei.getUri() = "platform:/resource/Test/.biz/test.bpmn2d#/0"
+       * dei.getUri().trimFragment()="platform:/resource/Test/.biz/test.bpmn2d"
+       * dei.getUri().trimFragment().toPlatformString(true)="/Test/.biz/test.bpmn2d"
        */
       IPath path = new Path(dei.getUri().trimFragment().toPlatformString(true));
 
@@ -342,11 +369,11 @@ public class FileService {
 
 
 
-	public static TransactionalEditingDomain createEmfFileForDiagram(final URI diagramResourceUri
+	public static TransactionalEditingDomain createEmfFileForDiagram(final URI diagramResourceUri//platform:/resource/Test/.biz/test.bpmn2d
 	                                                               , final Diagram diagram
 	                                                               , final ActivitiDiagramEditor diagramEditor
 	                                                               , final InputStream contentStream
-	                                                               , final IFile resourceFile) {
+	                                                               , final IFile resourceFile) {//resourceFile=null
 
 		TransactionalEditingDomain editingDomain = null;
 		/**

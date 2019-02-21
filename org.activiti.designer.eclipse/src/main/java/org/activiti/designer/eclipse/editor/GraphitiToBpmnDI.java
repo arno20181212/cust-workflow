@@ -215,7 +215,17 @@ public class GraphitiToBpmnDI {
   }
   
   protected void updateFlowElement(BaseElement flowElement) {
-    PictogramElement picElement = featureProvider.getPictogramElementForBusinessObject(flowElement);
+	/**
+	 * IFeatureProvider
+	 * 
+	 * The Interface IFeatureProvider. The set of provided features defines the operations, 
+	 * potentially available in a graphical editor. There has been the idea to restrict available 
+	 * operations through tool behavior providers  
+	 * 
+	 * method: getPictogramElementForBusinessObject:
+	 * This method is similar to the method getAllPictogramElementsForBusinessObject, but only return the first PictogramElement.
+	 */
+    PictogramElement picElement = featureProvider.getPictogramElementForBusinessObject(flowElement);//
     if (picElement instanceof Shape) {
       Shape shape = (Shape) picElement;
       ILocation shapeLocation = Graphiti.getLayoutService().getLocationRelativeToDiagram(shape);

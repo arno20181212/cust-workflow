@@ -130,6 +130,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
   public TransactionalEditingDomain getEditingDomain() {
     TransactionalEditingDomain ted = super.getEditingDomain();//// 图的model的editingDomain
 
+    //transactionalEditingDomain哪里赋值的？
     if (ted == null) {
       ted = transactionalEditingDomain;
     }
@@ -159,12 +160,13 @@ public class ActivitiDiagramEditor extends DiagramEditor {
     final IFile dataFile = FileService.getDataFileForInput(input);//dataFile="L/Test/test.biz"
 
     // now generate the temporary diagram file
-    final IPath dataFilePath = dataFile.getFullPath();
+    final IPath dataFilePath = dataFile.getFullPath();//dataFilePath="/Test/test.biz"
 
     // get or create the corresponding temporary folder
     final IFolder tempFolder = FileService.getOrCreateTempFolder(dataFilePath);//tempFolder==>"F/Test/.biz"
 
     // finally get the diagram file that corresponds to the data file
+    //datafilePath="F/Test/.biz",tempFolder="F/Test/.biz"
     final IFile diagramFile = FileService.getTemporaryDiagramFile(dataFilePath, tempFolder);//diagramFile = "L/Test/.biz/test.bpmn2d"
     
     // Create new temporary diagram file

@@ -42,10 +42,10 @@ public class Bpmn2DiagramCreator {
   public ActivitiDiagramEditorInput createBpmnDiagram(final IFile dataFile, final IFile diagramFile, final ActivitiDiagramEditor diagramEditor,
           final String templateContent, final boolean openEditor) {
     
-    IFile finalDataFile = dataFile;
+    IFile finalDataFile = dataFile;//dataFile="L/Test/test.biz",diagramFile="L/Test/.biz/test.bpmn2d",templateContent=null,openEditor=false
 
     final IPath diagramPath = diagramFile.getFullPath();//diagramPath="/Test/.biz/test.bpmn2d";
-    final String diagramName = diagramPath.removeFileExtension().lastSegment();//diagramName="test";
+    final String diagramName = diagramPath.removeFileExtension().lastSegment();//diagramPath.removeFileExtension().lastSegment()="test";diagramPath.removeFileExtension()="/Test/.biz/test"
     final URI uri = URI.createPlatformResourceURI(diagramPath.toString(), true);//diagramPath.toString()="/Test/.biz/test.bpmn2d";
     //uri ="platform:/resource/Test/.biz/test.bpmn2d";
     if (templateContent != null) {
@@ -87,7 +87,7 @@ public class Bpmn2DiagramCreator {
       }
     }
     //Diagram diagram = Graphiti.getPeCreateService().createDiagram(diagramTypeId, diagramName, true);
-    final Diagram diagram = Graphiti.getPeCreateService().createDiagram("BPMNdiagram", diagramName, true);
+    final Diagram diagram = Graphiti.getPeCreateService().createDiagram("BPMNdiagram", diagramName, true);//diagramName="test"
 
     FileService.createEmfFileForDiagram(uri, diagram, diagramEditor, null, null);
     /**
@@ -99,8 +99,8 @@ public class Bpmn2DiagramCreator {
      *provider id of the diagram type providers which can handle the given diagram type id. 
      *If more then one diagram type providers available, the first one will be returned.
      */
-    final String providerId = GraphitiUi.getExtensionManager().getDiagramTypeProviderId(diagram.getDiagramTypeId());
-    final ActivitiDiagramEditorInput result = new ActivitiDiagramEditorInput(EcoreUtil.getURI(diagram), providerId);
+    final String providerId = GraphitiUi.getExtensionManager().getDiagramTypeProviderId(diagram.getDiagramTypeId());//providerId="org.activiti.designer.diagram.ActivitiBPMNDiagramTypeProvider"
+    final ActivitiDiagramEditorInput result = new ActivitiDiagramEditorInput(EcoreUtil.getURI(diagram), providerId);//EcoreUtil.getURI(diagram)="platform:/resource/Test/.biz/test.bpmn2d#/"
     result.setDataFile(finalDataFile);
     result.setDiagramFile(diagramFile);
 
@@ -119,6 +119,33 @@ public class Bpmn2DiagramCreator {
       @Override
       public void run() {
         try {
+        	/**
+        	 * 当我们在知道文件位置的时候. 没有明确Input的时候.我们可以获取IFile对象来打开Editor.  但是想要获取的文件必须在项目里面, 这样才能获取IFile对象
+        	 * -----------code example1-------------------
+        	 *
+        	 * //获取工作控件, 获取根, 获取项目.
+        	 * IProject porject = ResourcesPlugin.getWorkspace().getRoot().getProjects()[0];
+        	 * //因为我只有一个项目, 所以没有循环遍历. 直接获取的第1个对象. 
+        	 * //在很明确项目名字的时候. 也可以使用getProject(name), 方法来获取项目. 同样可以获取IProject对象.
+        	 * //传入项目名, 获取IFile对象.
+        	 * IFile ifile = porject.getFile("src/com/test/www.xml");
+        	 * IDE.openEditor(page, ifile, SQLEditor.ID);	//打开编辑器.
+        	 * 
+        	 * ------------------------------
+        	 * 可以使用IDE.openEditor方法来打开编辑器. 此方法有很多重载方式. 甚至可以打开外部文件. 这里的外部文件是指eclipse工作空间外部的文件.
+        	 * 
+        	 * 
+        	 * 我们在明确有Input的时候, 可以使用这种方式:
+        	 * -----------code example2-------------------
+        	 * IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(); //打开一个空白页.  
+        	 * TestEditorInput input = new TestEditorInput("测试编辑器");
+        	 * try {  
+        	 *     page.openEditor(input, TestEditor.ID);  
+        	 *     } catch (PartInitException e1) {  
+        	 *         e1.printStackTrace();  
+        	 *         }
+        	 * ------------------------------
+        	 */
           IDE.openEditor(workbench.getActiveWorkbenchWindow().getActivePage(), editorInput, ActivitiConstants.DIAGRAM_EDITOR_ID);
 
         } catch (PartInitException exception) {
