@@ -33,7 +33,12 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.navigator.IDescriptionProvider;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
+/**
+ * labelProvider，需要一个实现org.eclipse.jface.viewers.ILabelProvider的类，
+ * 主要是在各个tabs的最上面显示文字和图片。
+ * 
+ *
+ */
 public class ProcessModelLabelProvider extends LabelProvider implements ILabelProvider, IDescriptionProvider {
 	
 	public ProcessModelLabelProvider() {

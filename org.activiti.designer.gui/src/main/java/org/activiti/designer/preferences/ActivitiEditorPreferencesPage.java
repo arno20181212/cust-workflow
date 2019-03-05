@@ -20,14 +20,21 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-
+/**
+ * FieldEditorPreferencePage.createContent主要執行了以下三個操作：
+ * 調用虛函數createFieldEditors(), 此方法在FavoritesPreferencePage必須實現,用於創建FieldEditor
+ *
+ */
 public class ActivitiEditorPreferencesPage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	public ActivitiEditorPreferencesPage() {
 		super(GRID);
 	}
-
+	
 	public void createFieldEditors() {
+		/**
+		 * BooleanFieldEditor:PreferencePage上的checkbox对象
+		 */
 		addField(new BooleanFieldEditor(Preferences.EDITOR_ADD_LABELS_TO_NEW_SEQUENCEFLOWS.getPreferenceId(),
 				"&Automatically create a label when adding a new sequence flow", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(Preferences.EDITOR_ADD_DEFAULT_CONTENT_TO_DIAGRAMS.getPreferenceId(),

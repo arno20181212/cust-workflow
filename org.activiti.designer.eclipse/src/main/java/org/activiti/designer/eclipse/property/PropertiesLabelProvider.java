@@ -33,6 +33,13 @@ import org.eclipse.ui.views.properties.tabbed.ITypeMapper;
  */
 public class PropertiesLabelProvider extends LabelProvider {
 
+	/**
+	 *  contributor有如下几个attribute：
+	 *  1）typeMapper，这个类需要实现org.eclipse.ui.views.properties.tabbed.ITypeMapper，
+	 *  主要是实现类型的映射，因为我们选择的元素并不一定是实现IPropertySource的元素
+	 *  （即能够给property view提供内容的元素），比如在GEF中，我们选择的finger实际上是选择了对应的EditPart，
+	 *  而实际上实现了IPropertySource一般的是model部分的元素，所以这时候我们要将Editpart映射到对应的model元素。
+	 */
 	private ITypeMapper typeMapper;
 
 	/**

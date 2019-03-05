@@ -18,7 +18,13 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-
+/**
+ * 页面继承了FieldEditorPreferencePage，只需要实现createFieldEditors()
+ * 即可构建自己的Preference结构；实现了IWorkbenchPreferencePage接口，
+ * 这样eclipse才能够通过plugin.xml中定义的extension point="org.eclipse.ui.preferencePages"加载本页。
+ * @author
+ *
+ */
 public class ActivitiPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	public ActivitiPreferencePage() {

@@ -20,7 +20,13 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
  * @author Frederik Heremans
  */
 public class PropertyEventListenersFilter extends ActivitiPropertyFilter {
-
+	/**
+	  * https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.graphiti.doc%2Fjavadoc%2Forg%2Feclipse%2Fgraphiti%2Fui%2Ffeatures%2Fpackage-summary.html
+	  * 
+	  * In our example the section should be shown if the selected element represents a EClass. 
+	  * Therefore we have to implement a property filter class by 
+	  * extending AbstractPropertySectionFilter and overwriting the method accept.
+	  */
 	public boolean accept(PictogramElement pe) {
 		return pe instanceof Diagram;
 	}

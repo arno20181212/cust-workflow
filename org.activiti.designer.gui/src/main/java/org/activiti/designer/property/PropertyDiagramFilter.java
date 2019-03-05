@@ -16,7 +16,14 @@ package org.activiti.designer.property;
 import org.activiti.bpmn.model.Pool;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-
+/**
+ * https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.graphiti.doc%2Fjavadoc%2Forg%2Feclipse%2Fgraphiti%2Fui%2Ffeatures%2Fpackage-summary.html
+ * 
+ * In our example the section should be shown if the selected element represents a EClass. 
+ * Therefore we have to implement a property filter class by extending AbstractPropertySectionFilter 
+ * and overwriting the method accept.
+ *
+ */
 public class PropertyDiagramFilter extends ActivitiPropertyFilter {
 
 	public boolean accept(PictogramElement pe) {

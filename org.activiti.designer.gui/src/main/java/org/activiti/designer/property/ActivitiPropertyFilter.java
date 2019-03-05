@@ -22,7 +22,14 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
-
+/**
+ * https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.graphiti.doc%2Fjavadoc%2Forg%2Feclipse%2Fgraphiti%2Fui%2Ffeatures%2Fpackage-summary.html
+ * 
+ * In our example the section should be shown if the selected element represents a EClass. 
+ * Therefore we have to implement a property filter class by extending AbstractPropertySectionFilter 
+ * and overwriting the method accept.
+ *
+ */
 public class ActivitiPropertyFilter extends AbstractPropertySectionFilter {
 
 	protected Object getBusinessObject(PictogramElement element) {
@@ -43,6 +50,12 @@ public class ActivitiPropertyFilter extends AbstractPropertySectionFilter {
 		}
 	}
 
+ /**
+  * Check the given pictogram element for acceptance.
+  * 
+  * Returns:
+  * true, if pictogram element is accepted, otherwise false
+  */
 	@Override
   protected boolean accept(PictogramElement element) {
 	  return false;
