@@ -35,7 +35,7 @@
 	<classpathentry exported="true" kind="lib" path="activiti-image-generator-5.20.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="activiti-simple-workflow-5.20.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="activiti-simple-workflow-alfresco-5.20.0-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="activiti-bpmn-model-5.21.0-SNAPSHOT.jar" sourcepath="E:/java/software/jd-gui-windows-1.4.0/activiti-bpmn-model-5.21.0-SNAPSHOT.jar.src.zip">
+	<classpathentry exported="true" kind="lib" path="activiti-bpmn-model-5.21.0-SNAPSHOT.jar" sourcepath="F:/LZH/jd-gui-windows-1.4.0/activiti-bpmn-model-5.21.0-SNAPSHOT.jar.src.zip">
 		<attributes>
 			<attribute name="source_encoding" value="UTF-8"/>
 		</attributes>
