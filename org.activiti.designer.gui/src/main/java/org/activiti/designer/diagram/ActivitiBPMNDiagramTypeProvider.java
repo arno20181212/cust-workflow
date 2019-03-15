@@ -45,11 +45,7 @@ Diagram是graphiti内置的显示模型的根节点，通过type D标示。
 在Graphiti中的“add”是为业务对象（领域模型对象）创建图形表达。哪种业务（business）对象能够添加到特定类型的diagram里是由feature provider发布的 add feature决定的。
 
 Graphiti支持Pictogram links，即领域模型的元素与定义图形化展示的模型（Pictogram model）的元素的链接。每个diagram有一个容器（图形，例如矩形）装载pictogram links。
---------------------- 
-作者：andywangcn 
-来源：CSDN 
-原文：https://blog.csdn.net/andywangcn/article/details/7905742 
-版权声明：本文为博主原创文章，转载请附上博文链接！
+
  * @author Administrator
  *
  */
@@ -68,15 +64,18 @@ public class ActivitiBPMNDiagramTypeProvider extends AbstractDiagramTypeProvider
 		 * (1)     从AbstractFeatureProvider/DefaultFeatureProvider扩展出自己的Feature Provider类。该类用于发布（deliver）features.
 		 *
 		 * (2)     在DagramTypeProvider()创建和设置FeatureProvider。
-		 *---------------------
-		 *作者：andywangcn
-		 *来源：CSDN
-		 *原文：https://blog.csdn.net/andywangcn/article/details/7943720
-		 *版权声明：本文为博主原创文章，转载请附上博文链接！
 		 */
 		setFeatureProvider(new ActivitiBPMNFeatureProvider(this));
 	}
-
+	
+	 /**
+	   * Description copied from interface: IDiagramTypeProvider
+	   * 	Returns the notification service.
+	   * Specified by:
+	   * 	getNotificationService in interface IDiagramTypeProvider
+	   * Returns:
+	   * 	the notification service
+	   */
   @Override
   public INotificationService getNotificationService() {
     if (activitiNotificationService == null) {

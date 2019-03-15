@@ -36,6 +36,7 @@ public class ActivitiNotificationService implements INotificationService {
     return diagramTypeProvider;
   }
 
+  
   @Override
   public PictogramElement[] calculateRelatedPictogramElements(Object[] bos) {
     final List<Object> changedAndRelatedBOs = new ArrayList<Object>();

@@ -99,6 +99,22 @@ public class TaskShapeController extends AbstractBusinessObjectShapeController {
   @Override
   public PictogramElement createShape(Object businessObject, ContainerShape layoutParent, int width, int height, IAddContext context) {
     final IPeCreateService peCreateService = Graphiti.getPeCreateService();
+    /**
+     * 
+     * createContainerShape(ContainerShape parentContainerShape,
+                                    boolean active)
+     * Creates a container shape inside the given parent container shape
+     * 
+     * parentContainerShape - the parent container shape
+     * active - true, if the created shape should be active, false otherwise. An active shape can be selected in the diagram editor 
+     * and it is also relevant for layouting: an active shape opens a coordinate system relative to its next active parent which can 
+     * be used for layouting its PictogramElement children, while an inactive one uses the coordinate system of its next direct parent for 
+     * layouting its children.
+     * By default all shapes should be active, inactive shapes should be used for grouping purposes or for linking a group of graphical objects 
+     * to the domain world only
+     * 
+     * For those familiar with GEF: only for active shapes a GEF EditPart will be created by the Graphiti framework, not for inactive ones.
+     */
     final ContainerShape containerShape = peCreateService.createContainerShape(layoutParent, true);
     final IGaService gaService = Graphiti.getGaService();
     
@@ -153,6 +169,7 @@ public class TaskShapeController extends AbstractBusinessObjectShapeController {
       width = width <= 0 ? 105 : width;
       height = height <= 0 ? 55 : height;
 
+      //圆角矩形
       RoundedRectangle roundedRectangle; // need to access it later
       {
         // create invisible outer rectangle expanded by
@@ -174,7 +191,7 @@ public class TaskShapeController extends AbstractBusinessObjectShapeController {
       width = context.getWidth() <= 0 ? 60 : context.getWidth();
       height = context.getHeight() <= 0 ? 60 : context.getHeight();
 
-      Polygon polygon;
+      Polygon polygon;//多边形
       {
         int xy[] = new int[] { 0, 30, 30, 0, 60, 30, 30, 60, 0, 30 };
 
@@ -197,7 +214,7 @@ public class TaskShapeController extends AbstractBusinessObjectShapeController {
       width = context.getWidth() <= 0 ? 55 : context.getWidth();
       height = context.getHeight() <= 0 ? 55 : context.getHeight();
 
-      Ellipse circle;
+      Ellipse circle;//椭圆
       {
         final Ellipse invisibleCircle = gaService.createEllipse(containerShape);
         invisibleCircle.setFilled(false);
@@ -239,7 +256,13 @@ public class TaskShapeController extends AbstractBusinessObjectShapeController {
       gaService.setLocationAndSize(text, 0, height + 5, width, 40);
       break;
     }
-
+    
+    /**
+     * public void link(PictogramElement pictogramElement,
+                 Object businessObject)
+                 
+     * Links the pictogram element with a business object. This deletes all previous links of this pictogram element.
+     */
     // create link and wire it
     getFeatureProvider().link(shape, addedTask);
 

@@ -30,7 +30,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-
+/**
+ * 实现接口ICreateFeature,或继承抽象类AbstractCreateFeature. 覆写canCreate和create（创建业务对象，并为其添加图形表达）.
+ * @author forms-huangcan
+ *
+ */
 public class CreateAlfrescoStartEventFeature extends AbstractCreateBPMNFeature {
 
   public static final String FEATURE_ID_KEY = "alfrescoStartevent";

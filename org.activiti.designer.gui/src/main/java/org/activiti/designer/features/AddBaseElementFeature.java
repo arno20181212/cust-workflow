@@ -26,16 +26,33 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
  * @author Tijs Rademakers
  */
 public class AddBaseElementFeature extends AbstractAddShapeFeature {
+/**
+ * (1) 创建add feature类
 
+                       ①  实现接口IAddFeature，或者继承其抽象类AbstractAddShapeFeature。实现两个方法canAdd（判断给出的内容能否添加）
+                               和add（创建图形结构，确立与业务对象的联接）
+
+                      ②   Add方法中创建绘图算法（graphics algorithm）（设置图形外观），并放到合适的位置（从给出的内容获取）。
+                                创建将被添加的对象与存放入它的容器的联接。
+
+ * @param fp
+ */
   public AddBaseElementFeature(ActivitiBPMNFeatureProvider fp) {
     super(fp);
   }
 
+  /**
+   * 判断给出的内容能否添加
+   */
   @Override
   public boolean canAdd(IAddContext context) {
     return getBpmnFeatureProvider().hasShapeController(context.getNewObject());
   }
   
+  /**
+   * Add方法中创建绘图算法（graphics algorithm）（设置图形外观），并放到合适的位置（从给出的内容获取）。
+   * 创建将被添加的对象与存放入它的容器的联接。
+   */
   @Override
   public PictogramElement add(IAddContext context) {
     final ContainerShape parent = context.getTargetContainer();
@@ -50,7 +67,7 @@ public class AddBaseElementFeature extends AbstractAddShapeFeature {
         
     // Create link between shape and business object
     link(containerShape, context.getNewObject());
-    
+    //在给定的pictogramelement布局
     layoutPictogramElement(containerShape);
     
     return containerShape;
