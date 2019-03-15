@@ -30,12 +30,18 @@ public class BpmnIndependenceSolver implements IIndependenceSolver {
   public BpmnIndependenceSolver(IDiagramTypeProvider diagramTypeProvider) {
     this.diagramTypeProvider = diagramTypeProvider;
   }
-    
+   
+  /**
+   * Provides the unique key for the given business object.
+   */
   @Override
   public String getKeyForBusinessObject(Object bo) {
     return ensureBpmnMemoryModel().getKeyForBusinessObject(bo);
   }
 
+  /**
+   * Provides the business object for the given key.
+   */
   @Override
   public Object getBusinessObjectForKey(String key) {
     return ensureBpmnMemoryModel().getBusinessObjectForKey(key);
