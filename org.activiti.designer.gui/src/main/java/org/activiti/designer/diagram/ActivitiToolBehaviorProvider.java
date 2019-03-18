@@ -235,13 +235,37 @@ public class ActivitiToolBehaviorProvider extends DefaultToolBehaviorProvider {
  * 创 建Image provider必须实现接口IImageProvider，或者继承其子类如AbstractImageProvider。
  * 覆写或实现方法 addAvailableImages（注册所有可用的图像标识符，并将它们映射到他们的依赖于平台的图像）。
  * 实现tool behavior provider类中的getContextButtonPad方法。
+ * 
+ * -============================================
+ * https://blog.csdn.net/andywangcn/article/details/7997623
+ * 
+ 1.2      提供Context Buttons
+(1)      Context Button是每一个图符元素上小的、自动显示图标的动作按钮。当鼠标在图元上时显示，移除图元时隐藏。
+Context Button不仅能提供Context menu的功能，并且一个Context Button上还可以添加多个drag & drop feature。
+
+(2)      Context buttons 需要在 tool behavior provider中定义。
+
+须要覆写tool behavior provider中的一个方法：
+The method getContextButtonPad has to return the context buttons for the given context (which implement IContextButtonEntry).
+ 
+(3)      有如下几类context button：
+
+①    Generic context buttons:对于所有工具，该类按钮外观和行为都是标准化的，如delete、remove、update。显示在图元的上边缘，有个特殊的工具可以选择显示或隐藏哪一个。（0~3个）
+
+②      Domain specific context buttons：他们是针对每个工具的，显示在图元右边缘和下边缘。外观和行为必须自定义。（0~5个）
+
+③      Collapse context button: 对于所有工具，该类按钮外观和行为都是标准化的，必须定义一个特定的工具，通过定义调用功能来定义按钮的行为（createCollapseContextButton）。（0~1个）
+
+每个context button可以有一个点击的功能和几个拖放功能（连接线），当同时存在多个拖放feature时，会有一个context-menu提示用户选择某个feature执行
  */
   @Override
   public IContextButtonPadData getContextButtonPad(IPictogramElementContext context) {
     IContextButtonPadData data = super.getContextButtonPad(context);
     PictogramElement pe = context.getPictogramElement();
 
-    setGenericContextButtons(data, pe, CONTEXT_BUTTON_DELETE);
+    //Generic context buttons:对于所有工具，该类按钮外观和行为都是标准化的，
+    //如delete、remove、update。显示在图元的上边缘，有个特殊的工具可以选择显示或隐藏哪一个。（0~3个）
+    setGenericContextButtons(data, pe, CONTEXT_BUTTON_DELETE);//Arno：就是显示在最上面的垃圾桶
 
     Object bo = getFeatureProvider().getBusinessObjectForPictogramElement(pe);
 
@@ -272,6 +296,7 @@ public class ActivitiToolBehaviorProvider extends DefaultToolBehaviorProvider {
       newUserTaskButton.setText("new user task"); //$NON-NLS-1$
       newUserTaskButton.setDescription("Create a new task"); //$NON-NLS-1$
       newUserTaskButton.setIconId(PluginImage.IMG_USERTASK.getImageKey());
+      //Domain specific context buttons：他们是针对每个工具的，显示在图元右边缘和下边缘。外观和行为必须自定义。（0~5个）
       data.getDomainSpecificContextButtons().add(newUserTaskButton);
 
       CreateExclusiveGatewayFeature exclusiveGatewayFeature = new CreateExclusiveGatewayFeature(getFeatureProvider());
@@ -305,6 +330,7 @@ public class ActivitiToolBehaviorProvider extends DefaultToolBehaviorProvider {
     ICreateConnectionFeature[] features = getFeatureProvider().getCreateConnectionFeatures();
     for (ICreateConnectionFeature feature : features) {
       if (feature.isAvailable(ccc) && feature.canStartConnection(ccc)) {
+    	//就是在编辑器中，选择箭头之后（drag），然后扯到目标上松开（drop），完成连线
         button.addDragAndDropFeature(feature);
       }
     }
@@ -1069,7 +1095,7 @@ public class ActivitiToolBehaviorProvider extends DefaultToolBehaviorProvider {
   
   //method for open call activity called element
   public void openCallActivityCalledElement(ICustomContext context) {
-    if (context.getPictogramElements() != null) {
+    if (context.getPictogramElements() != null) {//Gets the pictogram elements
       for (PictogramElement pictogramElement : context.getPictogramElements()) {
         if (getFeatureProvider().getBusinessObjectForPictogramElement(pictogramElement) == null) {
           continue;

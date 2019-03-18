@@ -85,6 +85,15 @@ public class ActivitiBPMNDiagramTypeProvider extends AbstractDiagramTypeProvider
     return activitiNotificationService;
   }
 
+  /**
+   * 工具行为提供器(ToolBehaviorProviders)需要被集成到标准工作台工具中。这一般意味着在工作台现有的编辑概念（concept）上添加功能。
+
+(1)      必须实现接口IToolBehaviorProvider，或者继承其子类如DefaultToolBehaviorProvider.。
+
+(2)      覆写方法：到剪贴板。
+
+(3)      在feature provider中覆写getAvailableToolBehaviorProviders发布。
+   */
   @Override
 	public IToolBehaviorProvider[] getAvailableToolBehaviorProviders() {
 	  /**

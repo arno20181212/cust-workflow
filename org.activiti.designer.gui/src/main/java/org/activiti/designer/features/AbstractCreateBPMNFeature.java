@@ -81,7 +81,7 @@ public abstract class AbstractCreateBPMNFeature extends AbstractCreateFeature {
   
   private void addFlowNodeOrArtifact(final BaseElement baseElement, final BaseElement container) {
     
-    if (container instanceof Process) {
+    if (container instanceof Process) {//Process:整个workflow
       final Process process = (Process) container;
       
       if (baseElement instanceof FlowElement) {
@@ -92,7 +92,7 @@ public abstract class AbstractCreateBPMNFeature extends AbstractCreateFeature {
         throw new IllegalArgumentException("BaseElement must be FlowElement or Artifact.");
       }
       
-    } else if (container instanceof SubProcess) {
+    } else if (container instanceof SubProcess) {//SubProcess:workflow里面的子任务
       final SubProcess subProcess = (SubProcess) container;
       
       if (baseElement instanceof FlowElement) {
