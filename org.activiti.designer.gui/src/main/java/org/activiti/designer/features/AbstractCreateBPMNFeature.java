@@ -123,13 +123,16 @@ public abstract class AbstractCreateBPMNFeature extends AbstractCreateFeature {
   
   protected void addBaseElementToContainer(ContainerShape targetContainer, BaseElement baseElement) {
     if (targetContainer instanceof Diagram) {
+    	/**
+    	 * EcoreUtil.getURI(getDiagram())= "platform:/resource/test/.biz/test.bpmn2d#/"
+    	 */
       final BpmnMemoryModel model = ModelHandler.getModel(EcoreUtil.getURI(getDiagram()));
-      if (model.getBpmnModel().getMainProcess() == null) {
+      if (model.getBpmnModel().getMainProcess() == null) {//什么情况？
         model.addMainProcess();
       }
       addFlowNodeOrArtifact(baseElement, model.getBpmnModel().getMainProcess());
       
-    } else {
+    } else { //组件放到容器里，例如把user task 控件拖放到envent sub process控件中
       // find the parent object
       final Object parent = getBusinessObjectForPictogramElement(targetContainer);
       
