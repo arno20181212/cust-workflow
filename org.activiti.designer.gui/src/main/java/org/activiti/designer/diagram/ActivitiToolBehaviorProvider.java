@@ -1100,8 +1100,14 @@ The method getContextButtonPad has to return the context buttons for the given c
         if (getFeatureProvider().getBusinessObjectForPictogramElement(pictogramElement) == null) {
           continue;
         }
+        /**
+         * 1、嵌入子流程
+				子流程元素<subProcess>内嵌在主流程元素<process>之内，只能在该流程中使用该子流程，外部是无法访问到的。这种子流程一般作为局部通用逻辑处理，或者因为特定业务需要，使得比较复杂的单个主流程设计清晰直观；
+		   2、调用子流程
+			        首先实现一个流程，在另一个流程中可以调用该流程，通常可以定义一些通用的流程作为这种调用子流程，供其他多个流程定义复用。这种子流程使用<callActivity>元素来进行调用，间接地嵌入到主流程中，用起来比较方便
+         */
         Object object = getFeatureProvider().getBusinessObjectForPictogramElement(pictogramElement);
-        if (object instanceof CallActivity) {
+        if (object instanceof CallActivity) {//在editor中双击task中的Call activity控件
           final CallActivity ca = (CallActivity) object;
           final String calledElement = ca.getCalledElement();
           if (calledElement != null && StringUtils.isNotBlank(calledElement)
