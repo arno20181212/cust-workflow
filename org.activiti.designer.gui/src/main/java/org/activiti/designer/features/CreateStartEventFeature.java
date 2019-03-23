@@ -29,9 +29,12 @@ public class CreateStartEventFeature extends AbstractCreateBPMNFeature {
   }
 
   public boolean canCreate(ICreateContext context) {
+	/**
+	 * 获取拖拽过来的图标，例如startEvent组件拖拽到 EventSubProcess组件中，禁止拖入，图标显示禁止符号
+	 */
     Object parentObject = getBusinessObjectForPictogramElement(context.getTargetContainer());
     if (parentObject instanceof EventSubProcess)
-      return false;
+      return false;//startEvent组件拖拽到 EventSubProcess组件中
     return super.canCreate(context);
   }
 

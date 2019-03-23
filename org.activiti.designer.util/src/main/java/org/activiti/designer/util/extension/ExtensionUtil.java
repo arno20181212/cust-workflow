@@ -119,6 +119,16 @@ public final class ExtensionUtil {
         // predefined user library linking to the extension libraries
         final IClasspathContainer userLibraryContainer = JavaCore.getClasspathContainer(new Path(DESIGNER_EXTENSIONS_USER_LIB_PATH), javaProject);
 
+        /**
+         * <classpath>
+				<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+				<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+				<classpathentry kind="src" path="src/main/java/"/>
+				<classpathentry kind="output" path="target/classes"/>
+			</classpath>
+
+         */
+        
         // Get a list of the classpath entries in the container. Each of
         // these represents one jar containing zero or more designer
         // extensions
@@ -130,9 +140,35 @@ public final class ExtensionUtil {
 
           for (final IClasspathEntry classpathEntry : extensionJars) {
 
+        	/**
+        	 * int getEntryKind()
+				Returns the kind of this classpath entry.
+				Returns:
+				one of:
+				CPE_SOURCE - this entry describes a source root in its project
+				CPE_LIBRARY - this entry describes a folder or JAR containing binaries
+				CPE_PROJECT - this entry describes another project
+				CPE_VARIABLE - this entry describes a project or library indirectly via a classpath variable in the first segment of the path *
+				CPE_CONTAINER - this entry describes set of entries referenced indirectly via a classpath container
+				
+				
+				public static final int	CPE_CONTAINER	5
+				public static final int	CPE_LIBRARY		1
+				public static final int	CPE_PROJECT		2
+				public static final int	CPE_SOURCE		3
+				public static final int	CPE_VARIABLE	4
+				
+				int getContentKind()
+				Returns the kind of files found in the package fragments identified by this classpath entry.
+				Returns:
+					IPackageFragmentRoot.K_SOURCE(1) for files containing source code, and 
+					IPackageFragmentRoot.K_BINARY(2) for binary class files. 
+					
+					There is no specified value for an entry denoting a variable (CPE_VARIABLE) or a classpath container (CPE_CONTAINER).
+        	 */
             // Only check entries of the correct kind
             if (classpathEntry.getEntryKind() == 1 && classpathEntry.getContentKind() == 2) {
-
+              //PackageFragment代表Java包(package)	
               IPackageFragment[] fragments = javaProject.getPackageFragments();
               for (IPackageFragment iPackageFragment : fragments) {
                 
@@ -480,7 +516,11 @@ public final class ExtensionUtil {
     // Determine the project
     IJavaProject javaProject = null;
     try {
-      javaProject = (IJavaProject) project.getNature(JavaCore.NATURE_ID);
+      /**
+       * javanature：Eclipse 的JDT里倒是有个java nature的概念，nature是标志一个项目的属性的，既这个项目是什么项目。
+       * java nature就是标志这个项目是java项目的。
+       */
+      javaProject = (IJavaProject) project.getNature(JavaCore.NATURE_ID);//确认是否java项目
     } catch (CoreException e) {
       // skip, not a Java project
     }
@@ -533,6 +573,17 @@ public final class ExtensionUtil {
         // Get a list of the classpath entries in the container. Each of
         // these represents one jar containing zero or more designer
         // extensions
+        
+        /**
+         * ----.classpath-----
+         * <classpath>
+				<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+				<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+				<classpathentry exported="true" kind="lib" path="activation-1.1.jar"/>
+				<classpathentry exported="true" kind="lib" path="chemistry-opencmis-client-bindings-0.10.0.jar"/>
+				<classpathentry kind="output" path="target/classes"/>
+			</classpath>
+         */
         final IClasspathEntry[] extensionJars = userLibraryContainer.getClasspathEntries();
 
         // If there are jars, inspect them; otherwise return because
@@ -544,14 +595,27 @@ public final class ExtensionUtil {
             // Only check entries of the correct kind
             if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_LIBRARY && classpathEntry.getContentKind() == IPackageFragmentRoot.K_BINARY) {
               IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+              /**
+               * 获取包路径：例如工程下两个包[a,b.c]，那么getPackageFragments获取的数组[a,b,b.c]三个路径
+               */
               IPackageFragment[] fragments = javaProject.getPackageFragments();
-              for (IPackageFragment iPackageFragment : fragments) {
+              for (IPackageFragment iPackageFragment : fragments) {//PackageFragment代表Java包(package)
                 
                 if (classpathEntry.getPath().lastSegment().equalsIgnoreCase(iPackageFragment.getParent().getElementName())) {
                   
+                	/**
+                	 * Jar 文件中 JAVA 资源主要 是 .java 文件和 .class 文件。Jar 文件中非 JAVA 的资源，对应的类为 IJarEntryResource，
+                	 * 比如 Jar 中的 .properties 文件、META-INF 文件夹、 META-INF 文件夹下的 MANIFEST.MF 等，都属于非 JAVA 资源，
+                	 * 这些非 JAVA 资 源可以存放于 JarPackageFragmentRoot 下，也可以存放于 JarPackageFragment 下。
+                	 * 下面的程序展示如何遍历获得 JarPackageFragmentRoot 下的所有非 JAVA 资源。
+					--------------------- 
+					原文：https://blog.csdn.net/wang_cyin/article/details/84683115 
+                	 */
+                	
+                  //读取所有的MANIFEST.MF文件
                   Manifest manifest = null;
                   for (Object obj : iPackageFragment.getNonJavaResources()) {
-                    if (obj instanceof JarEntryDirectory) {
+                    if (obj instanceof JarEntryDirectory) {//　JarEntryDirectory　相当于　META-INF　文件夹　
                       final JarEntryDirectory jarEntryDirectory = (JarEntryDirectory) obj;
                       final IJarEntryResource[] jarEntryResources = jarEntryDirectory.getChildren();
                       for (IJarEntryResource jarEntryResource : jarEntryResources) {
@@ -801,6 +865,13 @@ public final class ExtensionUtil {
     if (providedCustomUserTaskDescriptors != null) {
       for (CustomUserTaskDescriptor dscr : providedCustomUserTaskDescriptors) {
         Class< ? extends CustomUserTask> clazz = dscr.getClazz();
+        /**
+         * Modifier.isAbstract(int mod) //判断是不是抽象类
+         * 方法判定如果整数参数包含abstract修饰符，则返回true，否则返回false
+         * 
+         * class1.isAssignableFrom(class2)
+         * 判定此 Class 对象所表示的类或接口与指定的 Class 参数所表示的类或接口是否相同，或是否是其超类或超接口
+         */
         if (clazz != null && !Modifier.isAbstract(clazz.getModifiers()) && CustomUserTask.class.isAssignableFrom(clazz)) {
           try {
             CustomUserTask customUserTask = (CustomUserTask) clazz.newInstance();

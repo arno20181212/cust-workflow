@@ -119,6 +119,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -149,6 +150,9 @@ import org.eclipse.graphiti.tb.IContextButtonPadData;
 import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.ui.internal.GraphitiUIPlugin;
 import org.eclipse.graphiti.ui.internal.services.GraphitiUiInternal;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
@@ -256,7 +260,7 @@ The method getContextButtonPad has to return the context buttons for the given c
 
 ③      Collapse context button: 对于所有工具，该类按钮外观和行为都是标准化的，必须定义一个特定的工具，通过定义调用功能来定义按钮的行为（createCollapseContextButton）。（0~1个）
 
-每个context button可以有一个点击的功能和几个拖放功能（连接线），当同时存在多个拖放feature时，会有一个context-menu提示用户选择某个feature执行
+每个context button可以有一个点击的功能和几个拖功放能（连接线），当同时存在多个拖放feature时，会有一个context-menu提示用户选择某个feature执行
  */
   @Override
   public IContextButtonPadData getContextButtonPad(IPictogramElementContext context) {
@@ -879,7 +883,20 @@ The method getContextButtonPad has to return the context buttons for the given c
         alfrescoCompartmentEntry.getToolEntries().size() > 0) {
       ret.add(alfrescoCompartmentEntry);
     }
-
+//----test code--arno---
+//    IJavaProject javaProject = null;
+//    IPackageFragment[] fragments= null;
+//    try {
+//    	javaProject = (IJavaProject) project.getNature(JavaCore.NATURE_ID);
+//		fragments = javaProject.getPackageFragments();
+//	} catch (CoreException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
+//    System.out.println(fragments);
+     /**
+      * 这个是ui和实现分离的，所以UI依赖与实现工程（xxx.jar）,需要从依赖的工程里拿到实现类
+      */
     addCustomServiceTasks(project, ret);
     addCustomUserTasks(project, ret);
 

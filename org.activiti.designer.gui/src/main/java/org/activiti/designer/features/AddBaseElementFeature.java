@@ -61,6 +61,15 @@ public class AddBaseElementFeature extends AbstractAddShapeFeature {
     BusinessObjectShapeController shapeController = getBpmnFeatureProvider()
         .getShapeController(context.getNewObject());
    
+    /**
+     * IAddContext:
+     * Object getNewObject()
+     * A pictogram element has to be added. This pictogram element has to link to a domain model element.
+     * Returns:
+     *   instance of a domain model element
+     *   
+     */
+    
     // Request a new shape from the controller
     final PictogramElement containerShape = shapeController.createShape(context.getNewObject(), 
         parent, context.getWidth(), context.getHeight(), context);

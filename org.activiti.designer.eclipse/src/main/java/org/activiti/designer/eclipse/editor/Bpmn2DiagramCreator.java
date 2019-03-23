@@ -49,6 +49,13 @@ public class Bpmn2DiagramCreator {
     final URI uri = URI.createPlatformResourceURI(diagramPath.toString(), true);//diagramPath.toString()="/Test/.biz/test.bpmn2d";
     //uri ="platform:/resource/Test/.biz/test.bpmn2d";
     if (templateContent != null) {
+      /**
+       *  Class.getResourceAsStream() 会指定要加载的资源路径与当前类所在包的路径一致。
+       *  例如你写了一个MyTest类在包com.test.mycode 下，那么MyTest.class.getResourceAsStream("name") 会在com.test.mycode包下查找相应的资源。
+       *  如果这个name是以 '/' 开头的，那么就会从classpath的根路径下开始查找。
+       *  
+       *  ClassLoader.getResourceAsStream()  无论要查找的资源前面是否带'/' 都会从classpath的根路径下查找
+       */
       // there is a template to use
       final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(templateContent);
       finalDataFile = FileService.recreateDataFile(new Path(uri.trimFragment().toPlatformString(true)));
