@@ -521,7 +521,7 @@ Graphiti Developer Guide > Tutorial > Features > Add Connection Feature
   public IUpdateFeature getUpdateFeature(IUpdateContext context) {
     PictogramElement pictogramElement = context.getPictogramElement();
     Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-
+    //ContainerShape:A representation of the model object 'Container Shape'.
     if (pictogramElement instanceof ContainerShape) {
       if (bo instanceof FlowElement) {
         return new UpdateFlowElementFeature(this);
@@ -530,6 +530,7 @@ Graphiti Developer Guide > Tutorial > Features > Add Connection Feature
       } else if (bo instanceof TextAnnotation) {
         return new UpdateTextAnnotationFeature(this);
       }
+      //FreeFormConnection:A representation of the model object 'Free Form Connection'.
     } else if (pictogramElement instanceof FreeFormConnection) {
       if (bo instanceof FlowElement) {
         return new UpdateFlowElementFeature(this);

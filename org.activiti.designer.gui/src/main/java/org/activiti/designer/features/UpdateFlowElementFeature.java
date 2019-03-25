@@ -69,7 +69,8 @@ public class UpdateFlowElementFeature extends AbstractUpdateFeature {
     
 		if (pictogramElement instanceof ContainerShape) {
 			ContainerShape cs = (ContainerShape) pictogramElement;
-			
+			//Ellipse:椭圆
+			//BoundaryEvent:边界事件
 			if (bo instanceof BoundaryEvent && cs.getGraphicsAlgorithm() instanceof Ellipse) {
 			  BoundaryEvent event = (BoundaryEvent) bo;
 			  Iterator<GraphicsAlgorithm> itGraph = cs.getGraphicsAlgorithm().getGraphicsAlgorithmChildren().iterator();
