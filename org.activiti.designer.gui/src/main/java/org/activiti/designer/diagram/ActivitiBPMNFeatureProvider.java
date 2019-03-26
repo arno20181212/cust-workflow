@@ -522,7 +522,7 @@ Graphiti Developer Guide > Tutorial > Features > Add Connection Feature
     PictogramElement pictogramElement = context.getPictogramElement();
     Object bo = getBusinessObjectForPictogramElement(pictogramElement);
     //ContainerShape:A representation of the model object 'Container Shape'.
-    if (pictogramElement instanceof ContainerShape) {
+    if (pictogramElement instanceof ContainerShape) {//容器型状态（包括方形，圆形等有边界图片，线和点不属于容器状态，因为都是实心的，中间没有可以装填东西的区域）
       if (bo instanceof FlowElement) {
         return new UpdateFlowElementFeature(this);
       } else if (bo instanceof Pool || bo instanceof Lane) {
@@ -531,7 +531,7 @@ Graphiti Developer Guide > Tutorial > Features > Add Connection Feature
         return new UpdateTextAnnotationFeature(this);
       }
       //FreeFormConnection:A representation of the model object 'Free Form Connection'.
-    } else if (pictogramElement instanceof FreeFormConnection) {
+    } else if (pictogramElement instanceof FreeFormConnection) {//自由形式连接
       if (bo instanceof FlowElement) {
         return new UpdateFlowElementFeature(this);
       } else if (bo instanceof MessageFlow) {
