@@ -74,7 +74,7 @@ public class ActivitiDiagramEditorInput extends DiagramEditorInput {
  *    Checks if this instance of the input represent the same object as the given instance.
  */
   @Override
-  public boolean equals(Object obj) {
+  public boolean equals(Object obj) {//不知道在什么地方使用！！！
     boolean result = false;
 
     if (obj == null) {
@@ -91,8 +91,11 @@ public class ActivitiDiagramEditorInput extends DiagramEditorInput {
        * same resource type, equal full paths, and identical workspaces
        * 
        */
-      if (diagramFile.equals(otherInput.diagramFile)) {
-        result = true;
+      if (diagramFile.equals(otherInput.diagramFile)) {//打开的文件是同一个，鼠标点击或者在原来文件进行一些修改，otherInput.diagramFile原来的打开的文件
+        result = true;//otherInput.diagramFile原来的打开的文件，diagramFile新打开（显示）的文件
+      }
+      else{//just test ----表示切换不同biz的文件了，比如打开新的biz文件，或者在tab上切换不同的biz文件
+    	  result = false;
       }
     }
 
