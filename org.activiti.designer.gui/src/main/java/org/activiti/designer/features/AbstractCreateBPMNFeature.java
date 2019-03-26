@@ -127,8 +127,8 @@ public abstract class AbstractCreateBPMNFeature extends AbstractCreateFeature {
     	 * EcoreUtil.getURI(getDiagram())= "platform:/resource/test/.biz/test.bpmn2d#/"
     	 */
       final BpmnMemoryModel model = ModelHandler.getModel(EcoreUtil.getURI(getDiagram()));
-      if (model.getBpmnModel().getMainProcess() == null) {//什么情况？
-        model.addMainProcess();
+      if (model.getBpmnModel().getMainProcess() == null) {//1.打开一个空白的.biz图形文件时，首次添加控件; 
+        model.addMainProcess();                           //2.打开.biz文件时,ActivitiDiagramEditor.setInput会addMainProcess
       }
       addFlowNodeOrArtifact(baseElement, model.getBpmnModel().getMainProcess());
       
