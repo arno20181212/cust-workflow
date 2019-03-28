@@ -233,7 +233,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
 
   private void doSaveImage(final String diagramFileString, BpmnMemoryModel model) {
     boolean saveImage = PreferencesUtil.getBooleanPreference(Preferences.SAVE_IMAGE, ActivitiPlugin.getDefault());
-    if (saveImage) {
+    if (saveImage) {//如果在Preferences設置了保存時同時保存為圖片
       List<String> languages = PreferencesUtil.getStringArray(Preferences.ACTIVITI_LANGUAGES, ActivitiPlugin.getDefault());
       if (languages != null && languages.size() > 0) {
         
