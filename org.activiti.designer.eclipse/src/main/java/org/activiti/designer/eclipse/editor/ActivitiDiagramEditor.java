@@ -143,7 +143,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
     IEditorInput finalInput = null;
 
     try {
-      if (input instanceof ActivitiDiagramEditorInput) {
+      if (input instanceof ActivitiDiagramEditorInput) {//这是什么情况？
         finalInput = input;
       } else {
         finalInput = createNewDiagramEditorInput(input);
@@ -313,10 +313,11 @@ public class ActivitiDiagramEditor extends DiagramEditor {
       if (graphicalViewer == null || graphicalViewer.getEditPartRegistry() == null) {
         return;
       }
+      //可缩放任意形状根编辑部件
       final ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) graphicalViewer.getEditPartRegistry().get(LayerManager.ID);
-      final IFigure rootFigure = ((LayerManager) rootEditPart).getLayer(LayerConstants.PRINTABLE_LAYERS);
-      final IFigure gridFigure = ((LayerManager) rootEditPart).getLayer(LayerConstants.GRID_LAYER);
-      final Rectangle rootFigureBounds = rootFigure.getBounds();
+      final IFigure rootFigure = ((LayerManager) rootEditPart).getLayer(LayerConstants.PRINTABLE_LAYERS);//Printable可印刷（打印）的 层
+      final IFigure gridFigure = ((LayerManager) rootEditPart).getLayer(LayerConstants.GRID_LAYER);//GRID_LAYER 格子层，布局用的
+      final Rectangle rootFigureBounds = rootFigure.getBounds();//获取图形
 
       final boolean toggleRequired = gridFigure.isShowing();
 
@@ -327,7 +328,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
 
       // Add overlay
       addOverlay(imageGC, modelFileName, model);
-
+      //SWT 图形绘画接口（SWT Graphics）
       final SWTGraphics grap = new SWTGraphics(imageGC);
 
       // Access UI thread from runnable to print the canvas to the image
@@ -340,7 +341,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
             gridFigure.setVisible(false);
           }
           // Deselect any selections
-          graphicalViewer.deselectAll();
+          graphicalViewer.deselectAll();//取消选择
           rootFigure.paint(grap);
         }
       });
@@ -383,7 +384,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
   }
 
   public void addOverlay(final GC imageGC, String modelFileName, BpmnMemoryModel model) {
-    if (PreferencesUtil.getBooleanPreference(Preferences.SAVE_IMAGE_ADD_OVERLAY, ActivitiPlugin.getDefault())) {
+    if (PreferencesUtil.getBooleanPreference(Preferences.SAVE_IMAGE_ADD_OVERLAY, ActivitiPlugin.getDefault())) {//是否覆蓋原來的圖片
       final ImageOverlayCreator creator = new ImageOverlayCreator(imageGC);
       creator.addOverlay(modelFileName, model);
     }

@@ -60,7 +60,7 @@ public class GraphitiToBpmnDI {
     model.getBpmnModel().getLocationMap().clear();
     model.getBpmnModel().getLabelLocationMap().clear();
     List<Pool> toDeletePoolList = new ArrayList<Pool>();
-    for (Pool pool : model.getBpmnModel().getPools()) {
+    for (Pool pool : model.getBpmnModel().getPools()) {//泳池
       PictogramElement pictElementPool = featureProvider.getPictogramElementForBusinessObject(pool);
       if (pictElementPool != null) {
         updateFlowElement(pool);
@@ -68,12 +68,12 @@ public class GraphitiToBpmnDI {
         Process process = model.getBpmnModel().getProcess(pool.getId());
         if(process != null) {
           List<Lane> toDeleteLaneList = new ArrayList<Lane>();
-          for (Lane lane : process.getLanes()) {
-            PictogramElement pictElementLane = featureProvider.getPictogramElementForBusinessObject(lane);
+          for (Lane lane : process.getLanes()) {//泳道
+            PictogramElement pictElementLane = featureProvider.getPictogramElementForBusinessObject(lane);//在AddBaseElementFeature建立的图形和模型的关系
             if (pictElementLane != null) {
               updateFlowElement(lane);
             } else {
-              toDeleteLaneList.add(lane);
+              toDeleteLaneList.add(lane);//什么情况才会发生？
             }
           }
           
