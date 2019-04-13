@@ -146,13 +146,13 @@ public class ActivitiDiagramEditor extends DiagramEditor {
       if (input instanceof ActivitiDiagramEditorInput) {//这是什么情况？
         finalInput = input;
       } else {
-        finalInput = createNewDiagramEditorInput(input);
+        finalInput = createNewDiagramEditorInput(input);//1.读取图形文件里面的数据
       }
     } catch (CoreException exception) {
       exception.printStackTrace();
     }
 
-    super.init(site, finalInput);
+    super.init(site, finalInput);//2.把图形文件传给框架，框架调用Provider，然后FeatureProvider->getAddFeature->add（画一个图）->link(关联模型和图形),这样就
   }
 
   private ActivitiDiagramEditorInput createNewDiagramEditorInput(final IEditorInput input) throws CoreException {
