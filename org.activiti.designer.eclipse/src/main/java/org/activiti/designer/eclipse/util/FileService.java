@@ -401,7 +401,7 @@ public class FileService {
 		  editingDomain = diagramEditor.getEditingDomain();
 		  resourceSet = diagramEditor.getDiagramBehavior().getResourceSet();
 		}
-
+		//创建资源,相当于创建一个空的EMF模型格式的文件，EMF中持久化的基本单元叫做资源（resource），它是一个或多个与其内容一起持久化的对象的容器。
 		// Create a resource for this file.
 		final Resource resource = resourceSet.createResource(diagramResourceUri);//diagramResourceUri = "platform:/resource/Test/.biz/test.bpmn2d"
 		/**
@@ -426,6 +426,16 @@ public class FileService {
 				resource.setTrackingModification(true);
 
 				if (contentStream == null || resourceFile == null) {
+			/**
+			 * EMF对象由Resource接口来进行持久化，方法是将对象添加到资源的内容列表中，然后调用save()方法，例子如下：
+
+				PurchaseOrder po = ...
+				Resource resource = ...
+				resource.getContents().add(po);
+				resource.save(null);
+				--------------------- 
+				原文：https://blog.csdn.net/u012521340/article/details/76147176 
+			 */
 	        resource.getContents().add(diagram);
 				} else {
 				  try {
@@ -464,7 +474,7 @@ public class FileService {
 
 					@Override
 					public void run() {
-						//EMF中模型不能直接编辑，需要有事务，支持undo redo
+						//EMF中模型不能直接编辑，需要有事务，支持undo redo（原因可能是资源之间存在相互引用，需要保持一个事物，保存同时成功或者失败）
 						Transaction parentTx;
 						if (editingDomain != null
 								&& (parentTx = ((TransactionalEditingDomainImpl) editingDomain).getActiveTransaction()) != null) {
@@ -487,8 +497,8 @@ public class FileService {
 						for (final Resource resource : resourcesArray) {
 							if (resource.isModified()) {
 								try {
-									resource.save(options.get(resource));
-									savedResources.add(resource);
+									resource.save(options.get(resource));//save()方法的参数，一个Map，如果指定了保存操作的选项，那么这个参数将非空（non-null）。EMF的XML资源支持的选项详细介绍在15.3.3。
+									savedResources.add(resource);//多余的？
 								} catch (final Throwable t) {
 									failedSaves.put(resource.getURI(), t);
 								}
