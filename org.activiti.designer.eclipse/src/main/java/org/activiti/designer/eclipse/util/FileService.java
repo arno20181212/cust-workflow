@@ -372,7 +372,7 @@ public class FileService {
 	public static TransactionalEditingDomain createEmfFileForDiagram(final URI diagramResourceUri//platform:/resource/Test/.biz/test.bpmn2d
 	                                                               , final Diagram diagram
 	                                                               , final ActivitiDiagramEditor diagramEditor
-	                                                               , final InputStream contentStream
+	                                                               , final InputStream contentStream //null
 	                                                               , final IFile resourceFile) {//resourceFile=null
 
 		TransactionalEditingDomain editingDomain = null;
