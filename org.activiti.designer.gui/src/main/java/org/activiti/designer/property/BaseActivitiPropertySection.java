@@ -57,8 +57,8 @@ public abstract class BaseActivitiPropertySection extends GFPropertySection impl
     }
     if (container instanceof Diagram) {
       return (Diagram) container;
-    } else {
-      return getContainer(container.eContainer());
+    } else {                           //eContainer():An object is contained by another object if it appears in the contents of that object. 
+      return getContainer(container.eContainer());//The object will be contained by a containment feature of the containing object.
     }
   }
   
