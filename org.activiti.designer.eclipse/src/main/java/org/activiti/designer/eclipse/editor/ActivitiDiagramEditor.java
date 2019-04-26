@@ -413,7 +413,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
 
     final ActivitiDiagramEditorInput adei = (ActivitiDiagramEditorInput) input;
     final IFile dataFile = adei.getDataFile();
-
+    //设置FeatureProvider指定的模型，add..feature 绑定模型和图形element，通过图形元素可以获取模型，通过模型获取FeatureProvider
     final BpmnMemoryModel model = new BpmnMemoryModel(getDiagramTypeProvider().getFeatureProvider(), dataFile);
     ModelHandler.addModel(EcoreUtil.getURI(getDiagramTypeProvider().getDiagram()), model);
 
