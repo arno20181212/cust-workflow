@@ -45,6 +45,8 @@ public abstract class BaseActivitiPropertySection extends GFPropertySection impl
       return null;
     Diagram diagram = getContainer(element);
     BpmnMemoryModel model = (ModelHandler.getModel(EcoreUtil.getURI(diagram)));
+    //ActivitiDiagramEditor中setInput函数中设置FeatureProvider指定的模型，add..feature 绑定模型和图形element，
+    //通过图形元素可以获取模型，通过模型获取FeatureProvider
     if (model != null) {
       return (ActivitiBPMNFeatureProvider) model.getFeatureProvider();
     }

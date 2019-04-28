@@ -89,7 +89,7 @@ public abstract class ActivitiPropertySection extends BaseActivitiPropertySectio
       }
       
       @Override
-      public void focusGained(FocusEvent e) {
+      public void focusGained(FocusEvent e) {//获取焦点
         if(e.widget instanceof Text) {
           // Fix for issue in Eclipse Juno where the text is filled with value from the previous active
           // text-control in some cases. We set the value based on the model on focus.
@@ -177,7 +177,7 @@ public abstract class ActivitiPropertySection extends BaseActivitiPropertySectio
     
     TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
     // Create a shared form-composite to add all controls to
-    formComposite = factory.createFlatFormComposite(parent);
+    formComposite = factory.createFlatFormComposite(parent);//创建平面形状容器
     // Let superclass create controls
     createFormControls(aTabbedPropertySheetPage);
   }
@@ -434,6 +434,12 @@ public abstract class ActivitiPropertySection extends BaseActivitiPropertySectio
       textControl = getWidgetFactory().createText(formComposite, "", SWT.NONE);
       data = new FormData();
     }
+    /**
+     * FormData用另外一 个类来控制窗口小部件的大小和位置: FormAttachment.一个FormData最多用4个FormAttachment,
+     * 它们分别对应这个小部件的4个面:顶部，底部，左边和右 边。FormAttachment定义了小部件在parent composite或是这个composite里其它部件的位置
+     * 
+     * 原文：https://blog.csdn.net/naughty610/article/details/5309862 
+     */
     data.left = new FormAttachment(0, 200);
     data.right = new FormAttachment(100, 0);
     data.top = createTopFormAttachment();
