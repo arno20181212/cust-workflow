@@ -34,7 +34,8 @@ public abstract class BaseActivitiPropertySection extends GFPropertySection impl
     if (element == null)
       return null;
     ActivitiBPMNFeatureProvider featureProvider = getFeatureProvider(element);
-    if(featureProvider != null) {
+    if(featureProvider != null) {//AddBaseElementFeature中构造函数AddBaseElementFeature(ActivitiBPMNFeatureProvider fp)
+    	                         //保存featureProvider，所以下面的代码才可以通过featureProvider拿到业务对象
       return featureProvider.getBusinessObjectForPictogramElement(element);//添加图形元素时，通过link函数绑定图形元素和模型对应关系
     }
     return null;
