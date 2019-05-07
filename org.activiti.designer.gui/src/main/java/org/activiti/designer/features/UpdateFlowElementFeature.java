@@ -295,7 +295,7 @@ public class UpdateFlowElementFeature extends AbstractUpdateFeature {
       for (ConnectionDecorator decorator : decoratorList) {
         if (decorator.getGraphicsAlgorithm() instanceof MultiText) {
           MultiText text = (MultiText) decorator.getGraphicsAlgorithm();
-          text.setValue(businessName);
+          text.setValue(businessName+"ArnoTest");
           TextUtil.setTextSize(text);
           updated = true;
         }
