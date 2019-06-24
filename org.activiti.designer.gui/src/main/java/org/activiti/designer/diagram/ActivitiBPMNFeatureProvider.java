@@ -307,7 +307,7 @@ public class ActivitiBPMNFeatureProvider extends DefaultFeatureProvider {
 
   /**
    * 1.3      提供Create Feature
-   * 创建一个业务对象和相应的图符元素。通常创建业务对象，然后调用Add Feature去创建相应的图符元素。创建CreateFeature之后，
+   * 创建一个业务对象和相应的图符元素。通常创建业务对象（business object），然后调用Add Feature去创建相应的图符元素(graphics object),并在add feature中建立business object和graphics object之间的联系。创建CreateFeature之后，
    * 框架会自动集成到平台UI（platform’s UI）。
    * (1)     实现接口ICreateFeature,或继承抽象类AbstractCreateFeature. 覆写canCreate和create（创建业务对象，
    * 并为其添加图形表达）.
@@ -321,7 +321,7 @@ public class ActivitiBPMNFeatureProvider extends DefaultFeatureProvider {
    * IGaService：为绘图算法（graphics algorithm，外观）的创建和布局提供服务。
    */
   @Override
-  public ICreateFeature[] getCreateFeatures() {
+  public ICreateFeature[] getCreateFeatures() {//ActivitiToolBehaviorProvider.getPalette()执行时会调用这个函数创建组件
     return new ICreateFeature[] { new CreateAlfrescoStartEventFeature(this), new CreateStartEventFeature(this), new CreateTimerStartEventFeature(this),
         new CreateMessageStartEventFeature(this), new CreateErrorStartEventFeature(this), new CreateSignalStartEventFeature(this), new CreateEndEventFeature(this),
         new CreateErrorEndEventFeature(this), new CreateTerminateEndEventFeature(this), new CreateCancelEndEventFeature(this), new CreateUserTaskFeature(this),
