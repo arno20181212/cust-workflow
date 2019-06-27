@@ -247,8 +247,7 @@ public abstract class AbstractCreateBPMNFeature extends AbstractCreateFeature {
   private void createConnectionIfNeeded(PictogramElement element, ICreateContext context) {
   	if(context.getProperty(CONNECTION_ATTRIBUTE) != null) {
   		
-			CreateConnectionContext connectionContext = (CreateConnectionContext) 
-			context.getProperty(CONNECTION_ATTRIBUTE);
+			CreateConnectionContext connectionContext = (CreateConnectionContext) context.getProperty(CONNECTION_ATTRIBUTE);
 			connectionContext.setTargetPictogramElement(element);
 			connectionContext.setTargetAnchor(Graphiti.getPeService().getChopboxAnchor((AnchorContainer) element));
 			CreateSequenceFlowFeature sequenceFeature = new CreateSequenceFlowFeature(getFeatureProvider());
