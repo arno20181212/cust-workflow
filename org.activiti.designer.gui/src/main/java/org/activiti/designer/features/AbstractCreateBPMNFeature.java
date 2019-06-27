@@ -118,7 +118,7 @@ public abstract class AbstractCreateBPMNFeature extends AbstractCreateFeature {
     baseElement.setId(getNextId(baseElement));
     final ContainerShape targetContainer = context.getTargetContainer();
     addBaseElementToContainer(targetContainer, baseElement);
-    addGraphicalContent(context, baseElement);
+    addGraphicalContent(context, baseElement);//这个放进去的baseElement在哪里使用？
   }
   
   protected void addBaseElementToContainer(ContainerShape targetContainer, BaseElement baseElement) {
@@ -177,8 +177,8 @@ public abstract class AbstractCreateBPMNFeature extends AbstractCreateFeature {
   @SuppressWarnings("unchecked")
   protected void addGraphicalContent(ICreateContext context, BaseElement targetElement) {
   	setLocation(targetElement, (CreateContext) context);
-		PictogramElement element = addGraphicalRepresentation(context, targetElement);
-		createConnectionIfNeeded(element, context);
+		PictogramElement element = addGraphicalRepresentation(context, targetElement);//添加图形表示,这里开始调用AddBaseElementFeture.add方法
+		createConnectionIfNeeded(element, context);//在原来的图形上点击浮动menu中的菜单，生成的图形，会自动增加原来原图形和新增图形之间连线
 		
 		Anchor elementAnchor = null;
     EList<Anchor> anchorList = ((ContainerShape) element).getAnchors();
