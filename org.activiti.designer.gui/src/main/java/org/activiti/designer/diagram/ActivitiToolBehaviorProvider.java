@@ -229,7 +229,7 @@ public class ActivitiToolBehaviorProvider extends DefaultToolBehaviorProvider {
     //open call activity called element
     openCallActivityCalledElement(context);//打开容器类(Container)的组件（e.g:EventSubProcess,Transaction,SubProcess,Pool,Lane）
     
-    return super.getDoubleClickFeature(context);
+    return super.getDoubleClickFeature(context); 
   }
 /**
  * (1) ceating an Image Provider
