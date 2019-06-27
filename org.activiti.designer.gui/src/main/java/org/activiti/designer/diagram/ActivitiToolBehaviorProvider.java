@@ -729,7 +729,7 @@ The method getContextButtonPad has to return the context buttons for the given c
     final List<IPaletteCompartmentEntry> ret = new ArrayList<IPaletteCompartmentEntry>();
 
     // add compartments from super class if not disabled
-    IPaletteCompartmentEntry[] superCompartments = super.getPalette();
+    IPaletteCompartmentEntry[] superCompartments = super.getPalette();//这里调用ActivitiBPMNFeatureProvider.getCreateFeatures()创建组件
 
     // create new compartments
     IPaletteCompartmentEntry startEventCompartmentEntry = new PaletteCompartmentEntry("Start event", null);
