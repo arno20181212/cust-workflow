@@ -161,7 +161,11 @@ import com.alfresco.designer.gui.features.CreateAlfrescoMailTaskFeature;
 import com.alfresco.designer.gui.features.CreateAlfrescoScriptTaskFeature;
 import com.alfresco.designer.gui.features.CreateAlfrescoStartEventFeature;
 import com.alfresco.designer.gui.features.CreateAlfrescoUserTaskFeature;
-
+/**
+ * https://blog.csdn.net/andywangcn/article/details/7997623
+ * @author forms-huangcan
+ *
+ */
 public class ActivitiToolBehaviorProvider extends DefaultToolBehaviorProvider {
 
   private static final Map<Class< ? extends ICreateFeature>, PaletteEntry> toolMapping = new HashMap<Class< ? extends ICreateFeature>, PaletteEntry>();
@@ -276,9 +280,9 @@ The method getContextButtonPad has to return the context buttons for the given c
     CreateConnectionContext connectionContext = new CreateConnectionContext();
     connectionContext.setSourcePictogramElement(pe);
     Anchor connectionAnchor = null;
-    if (pe instanceof Anchor) {
+    if (pe instanceof Anchor) {//这是什么情况？
       connectionAnchor = (Anchor) pe;
-    } else if (pe instanceof AnchorContainer) {
+    } else if (pe instanceof AnchorContainer) {//鼠标防止图形上（容器类【中心可以放置东西的形状就是容器】），出现的连线
       connectionAnchor = Graphiti.getPeService().getChopboxAnchor((AnchorContainer) pe);
     }
     connectionContext.setSourceAnchor(connectionAnchor);
