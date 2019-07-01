@@ -280,14 +280,14 @@ The method getContextButtonPad has to return the context buttons for the given c
     CreateConnectionContext connectionContext = new CreateConnectionContext();
     connectionContext.setSourcePictogramElement(pe);
     Anchor connectionAnchor = null;
-    if (pe instanceof Anchor) {//这是什么情况？
+    if (pe instanceof Anchor) {//这是什么情况？放在锚点上，出现"<->"这个符号？
       connectionAnchor = (Anchor) pe;
     } else if (pe instanceof AnchorContainer) {//鼠标防止图形上（容器类【中心可以放置东西的形状就是容器】），出现的连线
       connectionAnchor = Graphiti.getPeService().getChopboxAnchor((AnchorContainer) pe);
     }
     connectionContext.setSourceAnchor(connectionAnchor);
 
-    if (pe.eContainer() instanceof ContainerShape == false) {
+    if (pe.eContainer() instanceof ContainerShape == false) {//什么情况？
       return data;
     }
 
