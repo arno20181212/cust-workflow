@@ -46,7 +46,7 @@ public class AddBaseElementFeature extends AbstractAddShapeFeature {
    */
   @Override
   public boolean canAdd(IAddContext context) {
-    return getBpmnFeatureProvider().hasShapeController(context.getNewObject());
+    return getBpmnFeatureProvider().hasShapeController(context.getNewObject());//在这之前，先调用createxxxfeture类
   }
   
   /**
