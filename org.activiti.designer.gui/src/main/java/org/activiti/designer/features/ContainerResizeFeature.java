@@ -75,7 +75,7 @@ public class ContainerResizeFeature extends DefaultResizeShapeFeature {
   @Override
   public boolean canResizeShape(IResizeShapeContext context) {
     boolean canResize = super.canResizeShape(context);
-
+    //在ActivitiBPMNFeatureProvider.getResizeShapeFeature注册使用的（容器类型使用）
     // perform further check only if move allowed by default feature
     if (canResize == true) {
       // don't allow resize if the class name has the length of 1
