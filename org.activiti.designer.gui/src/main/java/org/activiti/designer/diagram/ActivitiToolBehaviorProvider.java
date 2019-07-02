@@ -684,7 +684,7 @@ The method getContextButtonPad has to return the context buttons for the given c
     button.getContextButtonMenuEntries().add(newButton);
   }
 /**
- * 1.3 Providing a Context Menu
+ * 1.3 Providing a Context Menu 提供上下文菜单
  * Context Menu定义在tool behavior provider中。通过覆写方法getContextMenu创建返回context menu。
  */
   @Override
