@@ -615,7 +615,7 @@ directEditingInfo.setGraphicsAlgorithm(text);
     }
     return super.getResizeShapeFeature(context);
   }
-
+/*移动图形时调用*/
   @Override
   public IMoveShapeFeature getMoveShapeFeature(IMoveShapeContext context) {
     Shape shape = context.getShape();
