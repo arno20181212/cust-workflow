@@ -126,7 +126,7 @@ public class FileService {
     }
     String[] segments = dataFilePath.segments();//dataFilePath="/Test/test.biz",segments=[Test, test.biz]
     //segments = [Test, test.biz]
-    for (int i = 1; i < segments.length - 1; i++) {
+    for (int i = 1; i < segments.length - 1; i++) {//一个一个创建文件夹，不能象jdk中的mkdirs一次性创建
       String segment = segments[i];
       folder = folder.getFolder(segment);
       if (!folder.exists()) {
@@ -239,7 +239,7 @@ public class FileService {
     if (input instanceof ActivitiDiagramEditorInput) {//ActivitiDiagramEditorInput 在DiagramEditorInput上增加了diagramFile（图形文件）和datafile（数据文件）属性
       final ActivitiDiagramEditorInput adei = (ActivitiDiagramEditorInput) input;
       return adei.getDataFile();
-    } else if (input instanceof DiagramEditorInput) {
+    } else if (input instanceof DiagramEditorInput) {//这是什么情况？
     /**
      * DiagramEditorInput:
 	 * The editor input object for IDiagramContainerUIs. 
@@ -488,9 +488,8 @@ public class FileService {
 						}
 
 						final EList<Resource> resources = editingDomain.getResourceSet().getResources();
-						// Copy list to an array to prevent
-						// ConcurrentModificationExceptions
-						// during the saving of the dirty resources
+						// Copy list to an array to prevent ConcurrentModificationExceptions during the saving of the dirty resources
+						//将列表复制到数组，以防止在保存脏资源期间发生并发修改异常
 						Resource[] resourcesArray = new Resource[resources.size()];
 						resourcesArray = resources.toArray(resourcesArray);
 						final Set<Resource> savedResources = new HashSet<Resource>();
