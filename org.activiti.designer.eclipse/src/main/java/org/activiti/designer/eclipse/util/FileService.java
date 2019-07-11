@@ -496,7 +496,7 @@ public class FileService {
 						for (final Resource resource : resourcesArray) {
 							if (resource.isModified()) {
 								try {
-									resource.save(options.get(resource));//save()方法的参数，一个Map，如果指定了保存操作的选项，那么这个参数将非空（non-null）。EMF的XML资源支持的选项详细介绍在15.3.3。
+									resource.save(options.get(resource));//options={},options.get(resource)=null,save()方法的参数，一个Map，如果指定了保存操作的选项，那么这个参数将非空（non-null）。EMF的XML资源支持的选项详细介绍在15.3.3。
 									savedResources.add(resource);//多余的？
 								} catch (final Throwable t) {
 									failedSaves.put(resource.getURI(), t);
@@ -507,7 +507,7 @@ public class FileService {
 				};
 
 				try {
-					editingDomain.runExclusive(runnable);
+					editingDomain.runExclusive(runnable);//以独占方式运行
 				} catch (final InterruptedException e) {
 					throw new RuntimeException(e);
 				}
