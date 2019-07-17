@@ -484,7 +484,7 @@ public class FileService {
 											"FileService.save() called from within a command (likely produces a deadlock)"); //$NON-NLS-1$
 								}
 							} while ((parentTx = ((TransactionalEditingDomainImpl) editingDomain)
-									.getActiveTransaction().getParent()) != null);//活动的事务，说明其他操作处理中
+									.getActiveTransaction().getParent()) != null);//活动的事务，说明其他操作处理中 
 						}
 
 						final EList<Resource> resources = editingDomain.getResourceSet().getResources();
