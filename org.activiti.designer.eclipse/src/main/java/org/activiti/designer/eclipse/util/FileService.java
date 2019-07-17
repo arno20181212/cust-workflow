@@ -437,7 +437,7 @@ public class FileService {
 				原文：https://blog.csdn.net/u012521340/article/details/76147176 
 			 */
 	        resource.getContents().add(diagram);
-				} else {
+				} else {//这是什么情况？
 				  try {
 				    resourceFile.create(contentStream, true, null);
 				  } catch (CoreException exception) {
@@ -484,7 +484,7 @@ public class FileService {
 											"FileService.save() called from within a command (likely produces a deadlock)"); //$NON-NLS-1$
 								}
 							} while ((parentTx = ((TransactionalEditingDomainImpl) editingDomain)
-									.getActiveTransaction().getParent()) != null);
+									.getActiveTransaction().getParent()) != null);//活动的事务，说明其他操作处理中
 						}
 
 						final EList<Resource> resources = editingDomain.getResourceSet().getResources();
@@ -507,7 +507,7 @@ public class FileService {
 				};
 
 				try {
-					editingDomain.runExclusive(runnable);//以独占方式运行
+					editingDomain.runExclusive(runnable);//以独占方式运行,运行完成之前，其他线程或者应用只能等着
 				} catch (final InterruptedException e) {
 					throw new RuntimeException(e);
 				}
