@@ -524,7 +524,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
                 continue;
               }
 
-              Process process = model.getBpmnModel().getProcess(pool.getId());//Process指的是点击图标显示的属性，就是这个图形对应的需要处理的
+              Process process = model.getBpmnModel().getProcess(pool.getId());//Process指的是点击图标显示的属性，就是这个图形对应的需要处理的?
               if (process != null) {
                 for (Lane lane : process.getLanes()) {
                   addContainerElement(lane, model, (ContainerShape) poolElement);
@@ -772,7 +772,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
   protected ContainerShape getParentContainer(String flowElementId, Process process, Diagram diagram) {
     Lane foundLane = null;
     for (Lane lane : process.getLanes()) {
-      if (lane.getFlowReferences().contains(flowElementId)) {
+      if (lane.getFlowReferences().contains(flowElementId)) {//Lanes的FlowReferences存放的是放在其区域内的图标的引用？
         foundLane = lane;
         break;
       }
