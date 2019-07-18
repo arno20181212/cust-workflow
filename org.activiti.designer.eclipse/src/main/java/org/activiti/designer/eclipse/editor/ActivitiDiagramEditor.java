@@ -146,7 +146,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
       if (input instanceof ActivitiDiagramEditorInput) {//这是什么情况？
         finalInput = input;
       } else {
-        finalInput = createNewDiagramEditorInput(input);//1.读取图形文件里面的数据
+        finalInput = createNewDiagramEditorInput(input);//
       }
     } catch (CoreException exception) {
       exception.printStackTrace();
@@ -416,7 +416,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
     //设置FeatureProvider指定的模型，add..feature 绑定模型和图形element，通过图形元素可以获取模型，通过模型获取FeatureProvider
     final BpmnMemoryModel model = new BpmnMemoryModel(getDiagramTypeProvider().getFeatureProvider(), dataFile);
     ModelHandler.addModel(EcoreUtil.getURI(getDiagramTypeProvider().getDiagram()), model);
-
+    //dataFile.getLocationURI()="file:/E:/java/runtime-EclipseApplication/Biztest/src/logic/test.biz"
     String filePath = dataFile.getLocationURI().getPath();
     File bpmnFile = new File(filePath);
     try {
@@ -524,7 +524,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
                 continue;
               }
 
-              Process process = model.getBpmnModel().getProcess(pool.getId());
+              Process process = model.getBpmnModel().getProcess(pool.getId());//Process指的是点击图标显示的属性，就是这个图形对应的需要处理的
               if (process != null) {
                 for (Lane lane : process.getLanes()) {
                   addContainerElement(lane, model, (ContainerShape) poolElement);
@@ -561,8 +561,8 @@ public class ActivitiDiagramEditor extends DiagramEditor {
     int x = (int) graphicInfo.getX();
     int y = (int) graphicInfo.getY();
 
-    if (parent instanceof Diagram == false) {
-      x = x - parent.getGraphicsAlgorithm().getX();
+    if (parent instanceof Diagram == false) {//为何要后退一下？
+      x = x - parent.getGraphicsAlgorithm().getX();//getGraphicsAlgorithm()：获取图形算法
       y = y - parent.getGraphicsAlgorithm().getY();
     }
 
