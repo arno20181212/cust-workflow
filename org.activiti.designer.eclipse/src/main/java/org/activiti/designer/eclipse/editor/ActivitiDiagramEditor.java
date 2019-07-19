@@ -483,7 +483,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
             // lane DI info
             if (graphicInfo == null && StringUtils.isNotEmpty(pool.getProcessRef())) {
               Process process = model.getBpmnModel().getProcess(pool.getId());//每个泳池都对应一个process
-
+              //通过泳池包括的泳道来计算泳池的起始坐标和长度和高度
               if (process != null && process.getLanes().size() > 0) {
                 Double minX = null, minY = null, width = null, height = null;
                 for (Lane lane : process.getLanes()) {//(minX,minY)表示取最上面的泳道的左上角坐标，height应该表示泳池的高度（多条泳道高度之和）
@@ -513,7 +513,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
                   graphicInfo.setY(minY);
                   graphicInfo.setWidth(width);
                   graphicInfo.setHeight(height);
-                  model.getBpmnModel().addGraphicInfo(pool.getId(), graphicInfo);
+                  model.getBpmnModel().addGraphicInfo(pool.getId(), graphicInfo);//保存泳道的坐标和长宽高信息
                 }
               }
             }
