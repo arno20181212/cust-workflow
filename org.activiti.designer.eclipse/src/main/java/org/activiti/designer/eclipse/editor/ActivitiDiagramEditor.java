@@ -482,11 +482,11 @@ public class ActivitiDiagramEditor extends DiagramEditor {
             // if no graphic info is present we can try to calculate it from the
             // lane DI info
             if (graphicInfo == null && StringUtils.isNotEmpty(pool.getProcessRef())) {
-              Process process = model.getBpmnModel().getProcess(pool.getId());
+              Process process = model.getBpmnModel().getProcess(pool.getId());//每个泳池都对应一个process
 
               if (process != null && process.getLanes().size() > 0) {
                 Double minX = null, minY = null, width = null, height = null;
-                for (Lane lane : process.getLanes()) {
+                for (Lane lane : process.getLanes()) {//(minX,minY)表示取最上面的泳道的左上角坐标，height应该表示泳池的高度（多条泳道高度之和）
                   GraphicInfo laneInfo = model.getBpmnModel().getGraphicInfo(lane.getId());
                   if (laneInfo != null) {
                     if (minX == null || laneInfo.getX() < minX) {
