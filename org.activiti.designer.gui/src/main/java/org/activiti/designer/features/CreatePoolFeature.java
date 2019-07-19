@@ -61,8 +61,8 @@ public class CreatePoolFeature extends AbstractCreateBPMNFeature {
     model.getBpmnModel().getPools().add(newPool);
     model.getBpmnModel().addProcess(newProcess);
 
-    PictogramElement poolElement = addGraphicalRepresentation(context, newPool);
-
+    PictogramElement poolElement = addGraphicalRepresentation(context, newPool);//画泳池
+    //画一个默认的泳道
     Lane lane = new Lane();
     lane.setId(getNextId(lane, "lane"));
     lane.setParentProcess(newProcess);
