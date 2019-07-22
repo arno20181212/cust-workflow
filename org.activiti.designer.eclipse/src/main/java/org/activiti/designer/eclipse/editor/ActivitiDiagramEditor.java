@@ -523,8 +523,8 @@ public class ActivitiDiagramEditor extends DiagramEditor {
               if (poolElement == null) {
                 continue;
               }
-
-              Process process = model.getBpmnModel().getProcess(pool.getId());//Process指的是点击图标显示的属性，就是这个图形对应的需要处理的?
+              //画泳池中的泳道
+              Process process = model.getBpmnModel().getProcess(pool.getId());//Process指的泳池里面的处理
               if (process != null) {
                 for (Lane lane : process.getLanes()) {
                   addContainerElement(lane, model, (ContainerShape) poolElement);
