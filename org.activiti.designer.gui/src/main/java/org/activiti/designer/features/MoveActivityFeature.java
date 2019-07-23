@@ -92,7 +92,7 @@ public class MoveActivityFeature extends DefaultMoveShapeFeature {
 		// get the activity itself to determine its boundary events
 		final Activity activity = (Activity) getBusinessObjectForPictogramElement(shape);
 		ILocation shapeLocationAfterMove = Graphiti.getLayoutService().getLocationRelativeToDiagram(shape);
-		moveActivityChilds(activity, shapeLocationAfterMove);
+		moveActivityChilds(activity, shapeLocationAfterMove);//如果是容器类的图形，则移动里面的小活动图
 		
 		BpmnMemoryModel model = ModelHandler.getModel(EcoreUtil.getURI(getDiagram()));
 		
@@ -174,15 +174,15 @@ public class MoveActivityFeature extends DefaultMoveShapeFeature {
 		moveBoundaryEvents(boundaryEvents, shapeLocationAfterMove);
 		
 		// also move all boundary events and bendpoints in the sub process
-		if (activity instanceof SubProcess) {
+		if (activity instanceof SubProcess) {//移动的时候，里面的小活动图也跟着移动
 		  SubProcess subProcess = (SubProcess) activity;
 			for (FlowElement subElement : subProcess.getFlowElements()) {
-	      if (subElement instanceof Activity) {
-	      	moveActivityChilds((Activity) subElement, shapeLocationAfterMove);
-	      } else if (subElement instanceof SequenceFlow) {
-	        moveSequenceFlowBendpoints((SequenceFlow) subElement, shapeLocationAfterMove);
-	      }
-      }
+		      if (subElement instanceof Activity) {//SubProcess里面还可以继续潜逃SubProcess
+		      	moveActivityChilds((Activity) subElement, shapeLocationAfterMove);
+		      } else if (subElement instanceof SequenceFlow) {
+		        moveSequenceFlowBendpoints((SequenceFlow) subElement, shapeLocationAfterMove);
+		      }
+			}
 			
 			for (Artifact artifact : subProcess.getArtifacts()) {
 			  if (artifact instanceof Association) {
