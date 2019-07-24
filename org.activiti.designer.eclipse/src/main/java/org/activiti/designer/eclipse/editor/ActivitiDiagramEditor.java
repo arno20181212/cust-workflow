@@ -531,7 +531,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
                 }
               }
             }
-          }
+          }//一个diagram对应一个process，默认名称myProcess,可以看图形文件的xml源码，里面有lane，subprocess,则对应1+个process
         }//BpmnMemoryModel.getBpmnModel()只有一个model，对应diagram，里面的process对应的就是容器类的组件，例如Subprocess，Lane等
         //画泳池泳道里面的elements,Processes:指的是过程工序，就是一套流程，容器里面的所有活动图构成process
         for (Process process : model.getBpmnModel().getProcesses()) {//CreatePoolFeature.getBpmMode.addProcess(newProcess)
