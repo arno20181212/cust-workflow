@@ -696,7 +696,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
           }
         }
 
-        if (flowElement instanceof BoundaryEvent) {
+        if (flowElement instanceof BoundaryEvent) {//targetContaainer不一样，所以BoundaryEvent单独处理
           BoundaryEvent boundaryEvent = (BoundaryEvent) flowElement;
           if (boundaryEvent.getAttachedToRef() != null) {
             ContainerShape container = (ContainerShape) featureProvider.getPictogramElementForBusinessObject(boundaryEvent.getAttachedToRef());
