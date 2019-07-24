@@ -482,7 +482,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
             // if no graphic info is present we can try to calculate it from the
             // lane DI info
             if (graphicInfo == null && StringUtils.isNotEmpty(pool.getProcessRef())) {
-              Process process = model.getBpmnModel().getProcess(pool.getId());//每个泳池都对应一个process
+              Process process = model.getBpmnModel().getProcess(pool.getId());//每个泳池都对应一个process,整个diagram对应一个main process
               //通过泳池包括的泳道来计算泳池的起始坐标和长度和高度
               if (process != null && process.getLanes().size() > 0) {
                 Double minX = null, minY = null, width = null, height = null;
@@ -532,9 +532,9 @@ public class ActivitiDiagramEditor extends DiagramEditor {
               }
             }
           }
-        }
-        
-        for (Process process : model.getBpmnModel().getProcesses()) {
+        }//BpmnMemoryModel.getBpmnModel()只有一个model，对应diagram，里面的process对应的就是容器类的组件，例如Subprocess，Lane等
+        //画泳池泳道里面的elements,Processes:指的是过程工序，就是一套流程，容器里面的所有活动图构成process
+        for (Process process : model.getBpmnModel().getProcesses()) {//CreatePoolFeature.getBpmMode.addProcess(newProcess)
           drawFlowElements(process.getFlowElements(), model.getBpmnModel().getLocationMap(), diagram, process);
           drawArtifacts(process, model.getBpmnModel().getLocationMap(), diagram, process);
         }
@@ -576,7 +576,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
 
     return pictElement;
   }
-
+  //画容器控件里面的元素调用
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void drawFlowElements(Collection<FlowElement> elementList, Map<String, GraphicInfo> locationMap, ContainerShape parentShape, Process process) {
 
@@ -607,7 +607,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
         context.setNewObject(flowElement);
         context.setSize((int) graphicInfo.getWidth(), (int) graphicInfo.getHeight());
         ContainerShape parentContainer = null;
-        if (parentShape instanceof Diagram) {
+        if (parentShape instanceof Diagram) {//泳道内的element在返回泳道，否则返回diagram作为父容器
           parentContainer = getParentContainer(flowElement.getId(), process, (Diagram) parentShape);
         } else {
           parentContainer = parentShape;
@@ -777,7 +777,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
         break;
       }
     }
-    
+    //如果这个element在位于泳道，则返回泳道，否则返回最外层的diagram作为父容器
     if (foundLane != null) {
       final IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();
       return (ContainerShape) featureProvider.getPictogramElementForBusinessObject(foundLane);
