@@ -967,7 +967,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
 
     EList<Anchor> anchorList = sourceShape.getAnchors();
     for (Anchor anchor : anchorList) {
-      if (anchor instanceof ChopboxAnchor) {
+      if (anchor instanceof ChopboxAnchor) {//活动图element有多个锚点，→连接先连接的叫ChopboxAnchor
         sourceAnchor = anchor;
         break;
       }
