@@ -963,7 +963,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
 
     if (sourceShape == null) {
       return;
-    }
+    } 
 
     EList<Anchor> anchorList = sourceShape.getAnchors();
     for (Anchor anchor : anchorList) {
