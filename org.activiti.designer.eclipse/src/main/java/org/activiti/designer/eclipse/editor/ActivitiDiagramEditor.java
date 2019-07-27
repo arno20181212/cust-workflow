@@ -518,7 +518,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
               }
             }
 
-            if (graphicInfo != null) {
+            if (graphicInfo != null) {//画泳池
               PictogramElement poolElement = addContainerElement(pool, model, diagram);
               if (poolElement == null) {
                 continue;
@@ -538,8 +538,8 @@ public class ActivitiDiagramEditor extends DiagramEditor {
           drawFlowElements(process.getFlowElements(), model.getBpmnModel().getLocationMap(), diagram, process);//画框框（泳池、subProcess,process(diagram)）里面的元素
           drawArtifacts(process, model.getBpmnModel().getLocationMap(), diagram, process);
         }
-        drawAllFlows(model);
-        drawMessageFlows(model.getBpmnModel().getMessageFlows().values(), model);
+        drawAllFlows(model);//画箭头→（connection中的sequenceFlow ）
+        drawMessageFlows(model.getBpmnModel().getMessageFlows().values(), model);//画箭头→（connection中的messageFlow ）
       }
     });
   }
@@ -934,7 +934,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
     BpmnModel bpmnModel = model.getBpmnModel();
 
     for (Process process : bpmnModel.getProcesses()) {
-      drawSequenceFlowsInList(process.getFlowElements(), model);
+      drawSequenceFlowsInList(process.getFlowElements(), model);//画箭头连线
       drawAssociationsInList(process.getArtifacts(), model);
     }
   }
@@ -942,8 +942,8 @@ public class ActivitiDiagramEditor extends DiagramEditor {
   protected void drawSequenceFlowsInList(Collection<FlowElement> flowList, BpmnMemoryModel model) {
     for (FlowElement flowElement : flowList) {
 
-      if (flowElement instanceof SubProcess) {
-        drawSequenceFlowsInList(((SubProcess) flowElement).getFlowElements(), model);
+      if (flowElement instanceof SubProcess) {// process [ pool[lane1,lane2], subProcess[active1,active2] ]
+        drawSequenceFlowsInList(((SubProcess) flowElement).getFlowElements(), model);//画框框嵌套里面的框框里→连线
         drawAssociationsInList(((SubProcess) flowElement).getArtifacts(), model);
 
       } else if (flowElement instanceof SequenceFlow == false) {
@@ -990,7 +990,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
 
     AddConnectionContext addContext = new AddConnectionContext(sourceAnchor, targetAnchor);
 
-    List<GraphicInfo> bendpointList = new ArrayList<GraphicInfo>();
+    List<GraphicInfo> bendpointList = new ArrayList<GraphicInfo>();//bend point弯曲点
     if (model.getBpmnModel().getFlowLocationMap().containsKey(sequenceFlow.getId())) {
       List<GraphicInfo> pointList = model.getBpmnModel().getFlowLocationGraphicInfo(sequenceFlow.getId());
       if (pointList.size() > 2) {

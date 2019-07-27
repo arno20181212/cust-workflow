@@ -232,13 +232,13 @@ public class ActivitiUiUtil {
           
         } else if (featureClass.equals(MessageFlow.class)) {
           determinedId = loopThroughMessageFlows(determinedId, model.getBpmnModel().getMessageFlows().values(), featureIdKey);
-        } else {
+        } else {//循环遍历有多少个featureClass的图形，如果现在有8个featureClass的图形，那么新增的featureClass就是id=8+1=9
           determinedId = loopThroughElements(featureClass, determinedId, process.getFlowElements(), featureIdKey);
         }
       }
     }
     determinedId++;
-    return String.format(ID_PATTERN, featureIdKey, determinedId);
+    return String.format(ID_PATTERN, featureIdKey, determinedId);//featureIdKey='usertask' 最终结果=>usertask9
   }
   
   public static int loopThroughPools(final Class<? extends BaseElement> featureClass, int determinedId, 
