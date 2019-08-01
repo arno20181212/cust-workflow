@@ -538,8 +538,8 @@ public class ActivitiDiagramEditor extends DiagramEditor {
           drawFlowElements(process.getFlowElements(), model.getBpmnModel().getLocationMap(), diagram, process);//画框框（泳池、subProcess,process(diagram)）里面的元素
           drawArtifacts(process, model.getBpmnModel().getLocationMap(), diagram, process);
         }
-        drawAllFlows(model);//画箭头→（connection中的sequenceFlow ）
-        drawMessageFlows(model.getBpmnModel().getMessageFlows().values(), model);//画箭头→（connection中的messageFlow ）
+        drawAllFlows(model);//画sequenceFlow箭头→（connection中的sequenceFlow ）
+        drawMessageFlows(model.getBpmnModel().getMessageFlows().values(), model);//画messageFlow箭头→（connection中的messageFlow ）
       }
     });
   }
