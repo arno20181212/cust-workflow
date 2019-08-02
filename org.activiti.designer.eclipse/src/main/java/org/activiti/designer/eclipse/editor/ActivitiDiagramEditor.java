@@ -141,8 +141,8 @@ public class ActivitiDiagramEditor extends DiagramEditor {
   @Override
   public void init(IEditorSite site, IEditorInput input) throws PartInitException {
     IEditorInput finalInput = null;
-
-    try {
+    //双击打开文件，传入的input都是org.eclipse.ui.part.FileEditorInput(/Biztest/src/logic/test2.biz)
+    try {//File->Open File 返回的input是org.eclipse.ui.ide.FileStoreEditorInput
       if (input instanceof ActivitiDiagramEditorInput) {//这是什么情况？
         finalInput = input;
       } else {

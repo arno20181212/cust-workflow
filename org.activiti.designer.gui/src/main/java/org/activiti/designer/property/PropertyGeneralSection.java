@@ -233,5 +233,6 @@ public class PropertyGeneralSection extends ActivitiPropertySection implements I
     }
     
     languageElement.setElementText(name);
+    //element.setId(name);
   }
 }

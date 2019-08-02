@@ -55,7 +55,7 @@ public class CreatePoolFeature extends AbstractCreateBPMNFeature {
     newProcess.setId("process_" + newPool.getId());
     newProcess.setName(newProcess.getId());
 
-    newPool.setProcessRef(newProcess.getId());
+    newPool.setProcessRef(newProcess.getId());//标记pool对应的process
 
     BpmnMemoryModel model = ModelHandler.getModel(EcoreUtil.getURI(getDiagram()));
     model.getBpmnModel().getPools().add(newPool);

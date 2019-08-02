@@ -300,7 +300,7 @@ public class FileService {
 
       try {
     	  /**
-    	   * root.getProject:
+    	   * root.getProject:7
     	   * 
     	   * Returns a handle to the project resource with the given name which is a child of this root. 
     	   * The given name must be a valid path segment as defined by IPath.isValidSegment(String).

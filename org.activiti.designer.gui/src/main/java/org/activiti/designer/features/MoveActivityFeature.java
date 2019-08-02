@@ -96,42 +96,42 @@ public class MoveActivityFeature extends DefaultMoveShapeFeature {
 		
 		BpmnMemoryModel model = ModelHandler.getModel(EcoreUtil.getURI(getDiagram()));
 		
-		if (context.getSourceContainer() != context.getTargetContainer()) {
-		  if (context.getSourceContainer() instanceof Diagram == false) {
+		if (context.getSourceContainer() != context.getTargetContainer()) {//不同容器之间的移动，例如从subProcess里面移动，移出来subProcess的范围
+		  if (context.getSourceContainer() instanceof Diagram == false) {//不是从最外层Diagram中的的元素
 		    Object containerBo = getFeatureProvider().getBusinessObjectForPictogramElement(context.getSourceContainer());
-		    if (containerBo instanceof SubProcess) {
+		    if (containerBo instanceof SubProcess) {//从subProcess移出
 		      SubProcess subProcess = (SubProcess) containerBo;
-		      subProcess.removeFlowElement(activity.getId());
+		      subProcess.removeFlowElement(activity.getId());//从subProcess中移除
 		      for (SequenceFlow flow : activity.getOutgoingFlows()) {
 		        subProcess.removeFlowElement(flow.getId());
 		      }
 		      for (BoundaryEvent event : activity.getBoundaryEvents()) {
 		        subProcess.removeFlowElement(event.getId());
 		      }
-		    } else if (containerBo instanceof Lane) {
-		      Lane lane = (Lane) containerBo;
-          lane.getFlowReferences().remove(activity.getId());
-          lane.getParentProcess().removeFlowElement(activity.getId());
-          for (SequenceFlow flow : activity.getOutgoingFlows()) {
-            lane.getParentProcess().removeFlowElement(flow.getId());
-          }
-          for (BoundaryEvent event : activity.getBoundaryEvents()) {
-            lane.getParentProcess().removeFlowElement(event.getId());
-          }
-        }
-		  } else {
+		    } else if (containerBo instanceof Lane) {//从泳道中移出
+			      Lane lane = (Lane) containerBo;
+	          lane.getFlowReferences().remove(activity.getId());
+	          lane.getParentProcess().removeFlowElement(activity.getId());
+	          for (SequenceFlow flow : activity.getOutgoingFlows()) {
+	            lane.getParentProcess().removeFlowElement(flow.getId());
+	          }
+	          for (BoundaryEvent event : activity.getBoundaryEvents()) {
+	            lane.getParentProcess().removeFlowElement(event.getId());
+	          }
+		   }
+		} else {//是最外层Diagram的元素移动
 		    if (model.getBpmnModel().getMainProcess() != null) {
-  		    model.getBpmnModel().getMainProcess().removeFlowElement(activity.getId());
-  		    for (SequenceFlow flow : activity.getOutgoingFlows()) {
-  		      model.getBpmnModel().getMainProcess().removeFlowElement(flow.getId());
-          }
-  		    for (BoundaryEvent event : activity.getBoundaryEvents()) {
-  		      model.getBpmnModel().getMainProcess().removeFlowElement(event.getId());
-          }
+	  		    model.getBpmnModel().getMainProcess().removeFlowElement(activity.getId());
+	  		    for (SequenceFlow flow : activity.getOutgoingFlows()) {
+	  		      model.getBpmnModel().getMainProcess().removeFlowElement(flow.getId());
+	  		    }
+	  		    for (BoundaryEvent event : activity.getBoundaryEvents()) {
+	  		      model.getBpmnModel().getMainProcess().removeFlowElement(event.getId());
+	  		    }
 		    }
-		  }
+	}
 		  
-		  if (context.getTargetContainer() instanceof Diagram == false) {
+	 if (context.getTargetContainer() instanceof Diagram == false) {//不是移到Diagram的
         Object containerBo = getFeatureProvider().getBusinessObjectForPictogramElement(context.getTargetContainer());
         if (containerBo instanceof SubProcess) {
           SubProcess subProcess = (SubProcess) containerBo;
@@ -154,7 +154,7 @@ public class MoveActivityFeature extends DefaultMoveShapeFeature {
           }
         }
       } else {
-        if (model.getBpmnModel().getMainProcess() == null) {
+        if (model.getBpmnModel().getMainProcess() == null) {//这是什么情况才会出现？
           model.addMainProcess();
         }
         model.getBpmnModel().getMainProcess().addFlowElement(activity);
