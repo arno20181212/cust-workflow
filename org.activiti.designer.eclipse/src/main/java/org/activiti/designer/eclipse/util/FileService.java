@@ -236,7 +236,7 @@ public class FileService {
 	   */
     final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 
-    if (input instanceof ActivitiDiagramEditorInput) {//ActivitiDiagramEditorInput 在DiagramEditorInput上增加了diagramFile（图形文件）和datafile（数据文件）属性
+    if (input instanceof ActivitiDiagramEditorInput) {//（打开一个文件之后，再打开一个文件，例如先打开test.biz,不会走这一步，接下来再打开test2.biz，则满足这个条件）ActivitiDiagramEditorInput 在DiagramEditorInput上增加了diagramFile（图形文件）和datafile（数据文件）属性
       final ActivitiDiagramEditorInput adei = (ActivitiDiagramEditorInput) input;
       return adei.getDataFile();
     } else if (input instanceof DiagramEditorInput) {//这是什么情况？
@@ -272,7 +272,7 @@ public class FileService {
       IPath path = new Path(dei.getUri().trimFragment().toPlatformString(true));
 
       return recreateDataFile(path);
-    } else if (input instanceof FileEditorInput) {
+    } else if (input instanceof FileEditorInput) {//直接双击文件打开
       /**
        * FileEditorInput:
        * 
@@ -283,7 +283,7 @@ public class FileService {
 
       return fei.getFile();
     } else if (input instanceof IURIEditorInput) {//类似这种：File->openFile..,选择文件打开
-    
+   
       /**
        * IURIEditorInput:
        * 
@@ -350,7 +350,7 @@ public class FileService {
         }
 
         IFile importFile = importProject.getFile(fileName);
-        if (importFile.exists()) {
+        if (importFile.exists()) {//如果原来存在这个文件名的文件，删除
           importFile.delete(true, null);
         }
 
