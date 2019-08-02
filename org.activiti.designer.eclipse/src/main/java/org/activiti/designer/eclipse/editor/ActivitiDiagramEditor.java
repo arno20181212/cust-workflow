@@ -146,7 +146,7 @@ public class ActivitiDiagramEditor extends DiagramEditor {
       if (input instanceof ActivitiDiagramEditorInput) {//这是什么情况？
         finalInput = input;
       } else {
-        finalInput = createNewDiagramEditorInput(input);//
+        finalInput = createNewDiagramEditorInput(input);// 
       }
     } catch (CoreException exception) {
       exception.printStackTrace();
