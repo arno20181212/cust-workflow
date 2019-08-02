@@ -282,7 +282,7 @@ public class FileService {
       final FileEditorInput fei = (FileEditorInput) input;
 
       return fei.getFile();
-    } else if (input instanceof IURIEditorInput) {
+    } else if (input instanceof IURIEditorInput) {//类似这种：File->openFile..,选择文件打开
     
       /**
        * IURIEditorInput:
