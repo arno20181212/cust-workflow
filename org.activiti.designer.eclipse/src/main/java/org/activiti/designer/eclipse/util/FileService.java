@@ -239,7 +239,7 @@ public class FileService {
     if (input instanceof ActivitiDiagramEditorInput) {//（打开一个文件之后，再打开一个文件，例如先打开test.biz,不会走这一步，接下来再打开test2.biz，则满足这个条件）ActivitiDiagramEditorInput 在DiagramEditorInput上增加了diagramFile（图形文件）和datafile（数据文件）属性
       final ActivitiDiagramEditorInput adei = (ActivitiDiagramEditorInput) input;
       return adei.getDataFile();
-    } else if (input instanceof DiagramEditorInput) {//这是什么情况？
+    } else if (input instanceof DiagramEditorInput) {//启动eclipse时，打开上次的文件，如果多个tab，这时候tab之间的切换也会进入这里，估计是eclipse关闭的时候，diagram文件保存的input类型就是DiagramEditorInput
     /**
      * DiagramEditorInput:
 	 * The editor input object for IDiagramContainerUIs. 
