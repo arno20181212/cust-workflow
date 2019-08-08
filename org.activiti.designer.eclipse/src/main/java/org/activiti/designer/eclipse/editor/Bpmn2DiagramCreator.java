@@ -94,7 +94,7 @@ public class Bpmn2DiagramCreator {
       }
     }
     //Diagram diagram = Graphiti.getPeCreateService().createDiagram(diagramTypeId, diagramName, true);
-    final Diagram diagram = Graphiti.getPeCreateService().createDiagram("BPMNdiagram", diagramName, true);//diagramName="test"
+    final Diagram diagram = Graphiti.getPeCreateService().createDiagram("BPMNdiagram", diagramName, true);//diagramName="test","BPMNdiagram"指的是是diagramType，在plugin.xml配置的，对应type属性值
 
     FileService.createEmfFileForDiagram(uri, diagram, diagramEditor, null, null);
     /**
