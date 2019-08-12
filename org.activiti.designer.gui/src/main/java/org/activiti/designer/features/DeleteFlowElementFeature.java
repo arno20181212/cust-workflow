@@ -56,7 +56,7 @@ public class DeleteFlowElementFeature extends DefaultDeleteFeature {
 		  deleteAssociations((FlowNode) bo);
 		}
 		
-		if (bo instanceof SequenceFlow) {
+		if (bo instanceof SequenceFlow) {//箭头
 		  deletedConnectingFlows((SequenceFlow) bo);
 		}
 
