@@ -51,7 +51,7 @@ public class CopyFlowElementFeature extends AbstractCopyFeature {
     for (PictogramElement pe : pes) {
 
       final Object bo = getBusinessObjectForPictogramElement(pe);
-      if (!(bo instanceof FlowElement)) {
+      if (!(bo instanceof FlowElement)) {//流程图中的节点元素
         return false;
       }
     }
