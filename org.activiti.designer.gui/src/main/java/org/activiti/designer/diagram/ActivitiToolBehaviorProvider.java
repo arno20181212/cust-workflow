@@ -322,7 +322,7 @@ The method getContextButtonPad has to return the context buttons for the given c
       newEndButton.setIconId(PluginImage.IMG_ENDEVENT_NONE.getImageKey());
       data.getDomainSpecificContextButtons().add(newEndButton);
     }
-
+    //创建单独的箭头，需要拖拽连线
     CreateConnectionContext ccc = new CreateConnectionContext();
     ccc.setSourcePictogramElement(pe);
     Anchor anchor = null;
