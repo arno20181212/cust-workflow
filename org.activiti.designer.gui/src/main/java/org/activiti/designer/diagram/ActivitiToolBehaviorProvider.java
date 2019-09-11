@@ -291,7 +291,7 @@ The method getContextButtonPad has to return the context buttons for the given c
     if (pe.eContainer() instanceof ContainerShape == false) {//
       return data;
     }
-
+    //为何要加connectionContext，因为我们点击这些功能后，生成的新组件，都和原来的组件有连线的
     CreateContext taskContext = new CreateContext();
     taskContext.setTargetContainer((ContainerShape) pe.eContainer());
     taskContext.putProperty("org.activiti.designer.connectionContext", connectionContext);
