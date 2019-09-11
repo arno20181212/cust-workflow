@@ -279,6 +279,7 @@ The method getContextButtonPad has to return the context buttons for the given c
 
     CreateConnectionContext connectionContext = new CreateConnectionContext();
     connectionContext.setSourcePictogramElement(pe);
+    //连接线只能从锚点连接，如果容器类组件发出连接，从需要获取这个组件的锚点
     Anchor connectionAnchor = null;
     if (pe instanceof Anchor) {//这是什么情况？放在锚点上，出现"<->"这个符号？
       connectionAnchor = (Anchor) pe;
@@ -287,7 +288,7 @@ The method getContextButtonPad has to return the context buttons for the given c
     }
     connectionContext.setSourceAnchor(connectionAnchor);
 
-    if (pe.eContainer() instanceof ContainerShape == false) {//什么情况？
+    if (pe.eContainer() instanceof ContainerShape == false) {//
       return data;
     }
 
